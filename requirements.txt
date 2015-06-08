@@ -32,5 +32,5 @@ matplotlib==1.4.3
 # pandas
 # scikit-image
 # scikits.optimization
-# scipy
+scipy
 

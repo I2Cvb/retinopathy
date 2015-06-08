@@ -4,9 +4,9 @@ try:
 except ImportError:
     import unittest
 
-from data_conversion.base import get_data_home
-# from data_conversion.base import PROJECT_DATA_PATH
-# from data_conversion.base import fetch_mldata
+from data_loading.base import get_data_home
+# from data_loading.base import PROJECT_DATA_PATH
+# from data_loading.base import fetch_mldata
 
 class Test_data_convert(unittest.TestCase):
 

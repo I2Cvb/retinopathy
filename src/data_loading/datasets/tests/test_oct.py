@@ -5,7 +5,7 @@ except ImportError:
     import unittest
 
 from data_loading.base import *
-from data_loading.datasets.dummy import *
+from data_loading.datasets.oct import *
 
 class Test_oct(unittest.TestCase):
 

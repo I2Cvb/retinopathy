@@ -15,7 +15,7 @@ References
 # Authors: Joan Massich and Guillaume Lemaitre
 # License: MIT
 
-import data_conversion
+import data_loading
 
 # Grab the module-level docstring to use as a description of the
 # dataset
@@ -64,11 +64,11 @@ def check_dataset(data):
 def check_gt(label):
     check_label(label)
 
-def convert_coil_2000():
-    fetch_oct(download_if_missing=True):
-    d, l = process_coil_2000()
-    check_coil_2000_data(d)
-    check_coil_2000_label(l)
+def convert_oct():
+    fetch_oct(download_if_missing=True)
+    d, l = process_oct()
+    check_dataset(d)
+    check_gt(l)
     #TODO: change this hardcoded file
     np.savez('../data/clean/oct.npz', data=d, label=l)
 
