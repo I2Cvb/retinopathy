@@ -283,7 +283,25 @@ class CoodeBook(BaseEstimator, ClusterMixin, TransformerMixin):
         -------
         labels : array, shape [n_samples,]
             Index of the closest word within the code book.
-            cluster each sample belongs to.
         """
         return self.cluster_core.predict(X)
 
+    def get_dictionary(self):
+        """Retrieves the words forming the code book
+
+        Returns
+        -------
+        dictionary : array, shape [n_words, n_features]
+            Code book elements (words of the dictionary) represented
+            in the feature space
+        """
+        #TODO: check that the coodebook is fitted
+        return self.cluster_core.cluster_centers_
+
+    def get_BoF_descriptor(self,X):
+
+        # norm = lambda x: x.astype(float)/np.linalg.norm(x)
+        # return norm(np.bincount(self.predict(X)))
+        return np.histogram(self.predict(X),
+                            bins=range(self.n_words+1),
+                            density=True)

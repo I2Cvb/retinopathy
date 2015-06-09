@@ -16,57 +16,66 @@ import numpy as np
 from sklearn.datasets.samples_generator import make_blobs
 
 from sklearn.utils.testing import assert_equal
-from sklearn.utils.testing import assert_array_equal
-from sklearn.utils.testing import assert_array_almost_equal
-from sklearn.utils.testing import SkipTest
+# from sklearn.utils.testing import assert_array_equal
+# from sklearn.utils.testing import assert_array_almost_equal
+# from sklearn.utils.testing import SkipTest
 from sklearn.utils.testing import assert_almost_equal
 from sklearn.utils.testing import assert_raises
-from sklearn.utils.testing import assert_raises_regexp
-from sklearn.utils.testing import assert_true
+# from sklearn.utils.testing import assert_raises_regexp
+# from sklearn.utils.testing import assert_true
 from sklearn.utils.testing import assert_greater
 from sklearn.utils.testing import assert_less
-from sklearn.utils.testing import assert_warns
-from sklearn.utils.testing import if_not_mac_os
+# from sklearn.utils.testing import assert_warns
+# from sklearn.utils.testing import if_not_mac_os
 
-from sklearn.utils.extmath import row_norms
+# from sklearn.utils.extmath import row_norms
 from sklearn.metrics.cluster import v_measure_score
 from sklearn.cluster import KMeans, k_means
-from sklearn.cluster import MiniBatchKMeans
-from sklearn.cluster.k_means_ import _labels_inertia
-from sklearn.cluster.k_means_ import _mini_batch_step
-from sklearn.externals.six.moves import cStringIO as StringIO
+# from sklearn.cluster import MiniBatchKMeans
+# from sklearn.cluster.k_means_ import _labels_inertia
+# from sklearn.cluster.k_means_ import _mini_batch_step
+# from sklearn.externals.six.moves import cStringIO as StringIO
 
 
 class Test_data_convert(unittest.TestCase):
-    # non centered, sparse centers to check the
-    centers = np.array([
-        [0.0, 5.0, 0.0, 0.0, 0.0],
-        [1.0, 1.0, 4.0, 0.0, 0.0],
-        [1.0, 0.0, 0.0, 5.0, 1.0],
-    ])
-    n_samples = 100
-    n_clusters, n_features = centers.shape
-    X, true_labels = make_blobs(n_samples=n_samples, centers=centers,
-                                cluster_std=1., random_state=42)
 
-    def test_code_book_fit(self):
+    # def _check_fitted_model(self):
+    def test_fitted_model(self):
 
-    def _check_fitted_model(km):
+        # non centered, sparse centers to check the
+        centers = np.array([
+            [0.0, 5.0, 0.0, 0.0, 0.0],
+            [1.0, 1.0, 4.0, 0.0, 0.0],
+            [1.0, 0.0, 0.0, 5.0, 1.0],
+            ])
+        n_samples = 100
+        n_clusters, n_features = centers.shape
+        X, true_labels = make_blobs(n_samples=n_samples, centers=centers,
+                                    cluster_std=1., random_state=42)
+
+        cbook = CoodeBook(n_words=3)
+        cbook = cbook.fit(X) # TODO: Is it neaded to reasign? or it can be just cbook.fit(X)
+
         # check that the number of clusters centers and distinct labels match
         # the expectation
-        centers = km.cluster_centers_
+        centers = cbook.get_dictionary()
         assert_equal(centers.shape, (n_clusters, n_features))
 
-        labels = km.labels_
+        labels = cbook.predict(X)
         assert_equal(np.unique(labels).shape[0], n_clusters)
 
         # check that the labels assignment are perfect (up to a permutation)
         assert_equal(v_measure_score(true_labels, labels), 1.0)
-        assert_greater(km.inertia_, 0.0)
+        assert_greater(cbook.cluster_core.inertia_, 0.0)
 
-        # check error on dataset being too small
-        assert_raises(ValueError, km.fit, [[0., 1.]])
-
+        # check that the descriptor looks like the homogenous PDF used
+        # to create the original samples
+        cbook_hist = cbook.get_BoF_descriptor(X)
+        expected_value = float(1)/cbook.n_words
+        for bin_value in cbook_hist[0]:
+            assert_less(round(bin_value-expected_value,3), 0.01)
+        #TODO: recode this as assert_almost_equal but with higher tolerance
+        #      since assert_almost_equal is assert(round(a-b,7)==0)
 
     # def test_kmeans_dtype():
     #     rnd = np.random.RandomState(0)
