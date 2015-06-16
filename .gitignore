@@ -199,8 +199,6 @@ target/
 [Ii]nclude
 [Ll]ib
 [Ss]cripts
-||||||| merged common ancestors
-=======
-# emacs backup
-*~
->>>>>>> guilaumeUPS/master
+
+# avoid scratch folder
+scratch/
