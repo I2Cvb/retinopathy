@@ -1,6 +1,3 @@
-[submodule "doc/paper"]
-	path = doc/paper
-	url = https://github.com/massich/research_pub.git
 [submodule "src/protoclass"]
 	path = src/protoclass
 	url = https://github.com/glemaitre/protoclass.git
