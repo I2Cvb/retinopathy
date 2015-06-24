@@ -1,6 +1,6 @@
 [submodule "src/protoclass"]
 	path = src/protoclass
 	url = https://github.com/glemaitre/protoclass.git
-[submodule "doc/paper"]
-	path = doc/paper
+[submodule "doc/miccai-2015-omia"]
+	path = doc/miccai-2015-omia
 	url = https://github.com/I2Cvb/oct-Report.git
