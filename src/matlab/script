@@ -1,0 +1,20 @@
+#!/bin/bash
+
+script_dir=$(pwd)
+
+for mId in `seq 1 2`; do
+    for CV in `seq 1 16`; do
+    	script_filename_core='/script_'
+    	script_filename="$script_dir$script_filename_core$mId$CV"
+	### Create the file
+	touch $script_filename	
+	### Truncate the file if it is existing
+    	: > $script_filename
+    	### Write the command to execute
+	printf "matlab -nosplash -jvm -nodisplay -r \"SavingCodeBookCluster($mId,1,$CV)\"" >> $script_filename
+    	# printf "ipython protoclass/pipeline/feature-classification/classification_haralick.py \"${path_data}\" $patient_idx \"${path_saving}\"" >> $script_filename
+    	### Make it executable
+    	chmod u+x $script_filename
+    	qsub -q batch $script_filename
+    done
+done
