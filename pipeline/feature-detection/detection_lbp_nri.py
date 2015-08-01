@@ -1,4 +1,4 @@
-#title           :detection_lbp_flatten.py
+#title           :detection_lbp_nri.py
 #description     :This will create a header for a python script.
 #author          :Guillaume Lemaitre
 #date            :2015/06/07
@@ -28,7 +28,7 @@ if not (filename_data.endswith('.npz')):
     raise ValueError('denoising-non-local: The image in input is not a npz image.')
 else:
     # Read the volume using the raw image
-    name_var_extract = 'vol_flatten'
+    name_var_extract = 'vol_denoised'
     vol = OpenVolumeNumpy(filename_data, name_var_extract=name_var_extract)
     #vol = OpenVolumeNumpy(filename_data)
 
@@ -57,8 +57,8 @@ else:
     filename_root, _ = os.path.splitext(filename_patient)
 
     # Get the filename for numpy and matlab
-    filename_matlab = os.path.join(storing_folder, filename_root + '_lbp_flatten_' + str(radius) + '.mat')
-    filename_numpy = os.path.join(storing_folder, filename_root + '_lbp_flatten_' + str(radius) + '.npz')
+    filename_matlab = os.path.join(storing_folder, filename_root + '_lbp_nri_' + str(radius) + '.mat')
+    filename_numpy = os.path.join(storing_folder, filename_root + '_lbp_nri_' + str(radius) + '.npz')
 
     # Save the matfile
     from scipy.io import savemat
