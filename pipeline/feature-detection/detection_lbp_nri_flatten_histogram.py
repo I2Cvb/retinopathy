@@ -28,7 +28,7 @@ if not filename_data.endswith('.npz'):
     raise ValueError('detection_lbp_flatten_hist: The image in input is not a npz image.')
 else:
     # Read the volume using the raw image
-    name_var_extract = 'vol_flatten'
+    name_var_extract = 'vol_lbp'
     vol = OpenVolumeNumpy(filename_data, name_var_extract=name_var_extract)
 
     # Apply the filtering using 8 cores
