@@ -62,17 +62,21 @@ else:
 
         # open the training data
         vol_name = 'vol_lbp_hist'
-        training_data = np.concatenate((np.concatenate([np.load(join(data_folder, f))[vol_name] for f in pat_train_norm], axis=0),
-                                        np.concatenate([np.load(join(data_folder, f))[vol_name] for f in pat_train_dme], axis=0)),
+        training_data = np.concatenate((np.concatenate([np.load(join(data_folder, f))[vol_name] 
+                                                        for f in pat_train_norm], axis=0),
+                                        np.concatenate([np.load(join(data_folder, f))[vol_name] 
+                                                        for f in pat_train_dme], axis=0)), 
                                        axis=0)
 
         # open the testing data
         print join(data_folder, pat_test_norm)
         print join(data_folder, pat_test_dme)
-        testing_data = np.concatenate((np.load(join(data_folder, pat_test_norm))[vol_name], np.load(join(data_folder, pat_test_dme))[vol_name]), axis=0)
+        testing_data = np.concatenate((np.load(join(data_folder, pat_test_norm))[vol_name], 
+                                       np.load(join(data_folder, pat_test_dme))[vol_name]), 
+                                      axis=0)
 
         # Create the codebook using the training data
-        num_cores = 5
+        num_cores = 8
         list_n_words = [32]
         cbook = [CodeBook(n_words=w, n_jobs=num_cores, n_init=5) for w in list_n_words]
 
@@ -83,7 +87,8 @@ else:
 
         return cbook
             
-    codebook_list = Parallel(n_jobs=8)(delayed(CBComputation)(idx_test, (pat_test_norm, pat_test_dme), filename_normal, filename_dme, data_folder) for idx_test, (pat_test_norm, pat_test_dme) in enumerate(zip(filename_normal, filename_dme)))
+    codebook_list = Parallel(n_jobs=8)(delayed(CBComputation)(idx_test, (pat_test_norm, pat_test_dme), filename_normal, filename_dme, data_folder) 
+                                       for idx_test, (pat_test_norm, pat_test_dme) in enumerate(zip(filename_normal, filename_dme)))
 
     # We have to store the final codebook
     path_to_save = '/work/le2i/gu5306le/OCT/final_lbp_r_' + str(radius) + '_hist_now_codebook'
