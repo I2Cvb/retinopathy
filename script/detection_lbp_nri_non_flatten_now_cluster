@@ -5,9 +5,9 @@ if [ "$#" != "1" ];
 then
     echo "**************************************************************"
     echo "Usage:"
-    echo "./detection_lbp_nri_flatten_now_cluster dataPath"
+    echo "./detection_lbp_nri_non_flatten_now_cluster dataPath"
     echo
-    echo "Example: ./detection_lbp_hist_non_overlap_win_cluster ~/Home/Data/"
+    echo "Example: ./detection_lbp_nri_non_flatten_now_cluster ~/Home/Data/"
     echo " "
     echo "Current entry: $0 $*"
     echo "**************************************************************"
@@ -20,9 +20,9 @@ fi
 data_path=$1
 
 
-str_path_npz="/work/le2i/gu5306le/OCT/lbp_nri_flatten_r_3_hist_now_data_npz"
+str_path_npz="/work/le2i/gu5306le/OCT/lbp_nri_non_flatten_r_1_hist_now_data_npz"
 
-str_path_mat="/work/le2i/gu5306le/OCT/lbp_nri_flatten_r_3_hist_now_data_mat"
+str_path_mat="/work/le2i/gu5306le/OCT/lbp_nri_non_flatten_r_1_hist_now_data_mat"
 
 # Keep the directory of the script into a variable
 script_dir=$(pwd)
