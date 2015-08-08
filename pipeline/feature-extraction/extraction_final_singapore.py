@@ -36,7 +36,7 @@ data_filename = gt[:, 0]
 
 # Get the good extension
 radius = 1
-data_filename = np.array([f + '_nlm_lbp_' + str(radius) + '_hist_now.npz' for f in data_filename])
+data_filename = np.array([f + '_nlm_lbp_nri' + str(radius) + '_hist.npz' for f in data_filename])
 
 label = gt[:, 1]
 label = ((label + 1.) / 2.).astype(int)
@@ -53,7 +53,7 @@ else:
     filename_normal = data_filename[label == 0]
     filename_dme = data_filename[label == 1]
     
-    data_folder = '/work/le2i/gu5306le/OCT/lbp_r_' + str(radius) + '_hist_now_data_npz'
+    data_folder = '/work/le2i/gu5306le/OCT/lbp_nri_flatten_r_' + str(radius) + '_hist_data_npz'
 
     def CBComputation(idx_test, (pat_test_norm, pat_test_dme), filename_normal, filename_dme, data_folder):
 
@@ -91,7 +91,7 @@ else:
                                        for idx_test, (pat_test_norm, pat_test_dme) in enumerate(zip(filename_normal, filename_dme)))
 
     # We have to store the final codebook
-    path_to_save = '/work/le2i/gu5306le/OCT/final_lbp_r_' + str(radius) + '_hist_now_codebook'
+    path_to_save = '/work/le2i/gu5306le/OCT/lbp_nri_flatten_r_' + str(radius) + '_hist_codebook'
     if not os.path.exists(path_to_save):
         os.makedirs(path_to_save)
 
