@@ -87,8 +87,11 @@ else:
 
         return cbook
             
-    codebook_list = Parallel(n_jobs=8)(delayed(CBComputation)(idx_test, (pat_test_norm, pat_test_dme), filename_normal, filename_dme, data_folder) 
-                                       for idx_test, (pat_test_norm, pat_test_dme) in enumerate(zip(filename_normal, filename_dme)))
+    # codebook_list = Parallel(n_jobs=8)(delayed(CBComputation)(idx_test, (pat_test_norm, pat_test_dme), filename_normal, filename_dme, data_folder) 
+    #                                    for idx_test, (pat_test_norm, pat_test_dme) in enumerate(zip(filename_normal, filename_dme)))
+    codebook_list = []
+    for idx_test, (pat_test_norm, pat_test_dme) in enumerate(zip(filename_normal, filename_dme)):
+        codebook_list.append(CBComputation(idx_test, (pat_test_norm, pat_test_dme), filename_normal, filename_dme, data_folder))
 
     # We have to store the final codebook
     path_to_save = '/work/le2i/gu5306le/OCT/lbp_nri_flatten_r_' + str(radius) + '_hist_codebook'
