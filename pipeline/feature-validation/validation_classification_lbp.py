@@ -681,9 +681,245 @@ from sklearn.externals import joblib
 #                                                  float(result_array.shape[1]))
 #     print ''
 
-nw = [2, 4, 8, 16, 32]
+# nw = [2, 4, 8, 16, 32]
 
-path_result = '/work/le2i/gu5306le/dukeOCT/dataset/lbp_hist_BoW_now_comb_results/bow.pkl'
+# path_result = '/work/le2i/gu5306le/dukeOCT/dataset/lbp_hist_BoW_now_comb_results/bow.pkl'
+
+# # Load the results from the given path
+# result = joblib.load(path_result)
+# result_array = np.array(result)
+
+# # Swap the two first axis
+# result_array = np.rollaxis(result_array, 0, 2)
+
+# # Go throught the different words
+# for idx_w, w in enumerate(result_array):
+    
+#     normal = 0.
+#     dme = 0.
+#     # Extract the results on the testing set
+#     for cv in w[:, 0]:
+            
+#         if cv[0] == 0:
+#             normal += 1.
+#         if cv[1] == 1:
+#             dme += 1.
+
+#     print '----- # WORDS {} -----'.format(nw[idx_w])
+#     print 'The statistic are the following:'
+#     print 'Sensitivity: {} - Specificity: {}'.format(dme / float(result_array.shape[1]),
+#                                                      normal / float(result_array.shape[1]))
+#     print 'DME: {} / {} - Normal: {}/ {}'.format(dme,
+#                                                  float(result_array.shape[1]),
+#                                                  normal,
+#                                                  float(result_array.shape[1]))
+#     print ''
+
+print ''
+print 'LBP NRI NON FLATTEN'
+print ''
+
+for radius in range(1, 4):
+    path_result = '/work/le2i/gu5306le/OCT/SPIE/lbp_nri_non_flatten_r_' + str(radius) + '_hist_results/hist.pkl'
+
+    # Load the results from the given path
+    result = joblib.load(path_result)
+    result_array = np.array(result)
+
+    normal = 0.
+    dme = 0.
+    # Extract the results on the testing set
+    for cv in result_array[:, 0]:
+        
+        if cv[0] == 0:
+            normal += 1.
+        if cv[1] == 1:
+            dme += 1.
+
+    print '----- RADIUS  {} -----'.format(radius)
+    print 'The statistic are the following:'
+    print 'Sensitivity: {} - Specificity: {}'.format(dme / float(result_array.shape[0]),
+                                                     normal / float(result_array.shape[0]))
+    print 'DME: {} / {} - Normal: {}/ {}'.format(dme,
+                                                 float(result_array.shape[0]),
+                                                 normal,
+                                                 float(result_array.shape[0]))
+    print ''
+
+print ''
+print 'LBP NRI FLATTEN'
+print ''
+    
+for radius in range(1, 4):
+    path_result = '/work/le2i/gu5306le/OCT/SPIE/lbp_nri_flatten_r_' + str(radius) + '_hist_results/hist.pkl'
+
+    # Load the results from the given path
+    result = joblib.load(path_result)
+    result_array = np.array(result)
+
+    normal = 0.
+    dme = 0.
+    # Extract the results on the testing set
+    for cv in result_array[:, 0]:
+        
+        if cv[0] == 0:
+            normal += 1.
+        if cv[1] == 1:
+            dme += 1.
+
+    print '----- RADIUS  {} -----'.format(radius)
+    print 'The statistic are the following:'
+    print 'Sensitivity: {} - Specificity: {}'.format(dme / float(result_array.shape[0]),
+                                                     normal / float(result_array.shape[0]))
+    print 'DME: {} / {} - Normal: {}/ {}'.format(dme,
+                                                 float(result_array.shape[0]),
+                                                 normal,
+                                                 float(result_array.shape[0]))
+    print ''
+
+print ''
+print 'LBP-TOP NRI NON FLATTEN'
+print ''
+    
+for radius in range(1, 4):
+    path_result = '/work/le2i/gu5306le/OCT/SPIE/lbptop_nri_r_' + str(radius) + '_results/hist.pkl'
+
+    # Load the results from the given path
+    result = joblib.load(path_result)
+    result_array = np.array(result)
+
+    normal = 0.
+    dme = 0.
+    # Extract the results on the testing set
+    for cv in result_array[:, 0]:
+        
+        if cv[0] == 0:
+            normal += 1.
+        if cv[1] == 1:
+            dme += 1.
+
+    print '----- RADIUS  {} -----'.format(radius)
+    print 'The statistic are the following:'
+    print 'Sensitivity: {} - Specificity: {}'.format(dme / float(result_array.shape[0]),
+                                                     normal / float(result_array.shape[0]))
+    print 'DME: {} / {} - Normal: {}/ {}'.format(dme,
+                                                 float(result_array.shape[0]),
+                                                 normal,
+                                                 float(result_array.shape[0]))
+    print ''
+
+print ''
+print 'LBP-TOP NRI FLATTEN'
+print ''
+    
+for radius in range(1, 4):
+    path_result = '/work/le2i/gu5306le/OCT/SPIE/lbptop_nri_flatten_r_' + str(radius) + '_results/hist.pkl'
+
+    # Load the results from the given path
+    result = joblib.load(path_result)
+    result_array = np.array(result)
+
+    normal = 0.
+    dme = 0.
+    # Extract the results on the testing set
+    for cv in result_array[:, 0]:
+        
+        if cv[0] == 0:
+            normal += 1.
+        if cv[1] == 1:
+            dme += 1.
+
+    print '----- RADIUS  {} -----'.format(radius)
+    print 'The statistic are the following:'
+    print 'Sensitivity: {} - Specificity: {}'.format(dme / float(result_array.shape[0]),
+                                                     normal / float(result_array.shape[0]))
+    print 'DME: {} / {} - Normal: {}/ {}'.format(dme,
+                                                 float(result_array.shape[0]),
+                                                 normal,
+                                                 float(result_array.shape[0]))
+    print ''
+
+print ''
+print 'LBP NRI NON FLATTEN - BoW - Sliding Window'
+print ''
+    
+nw = [32]
+
+print '----- RADIUS  1 -----'
+
+path_result = '/work/le2i/gu5306le/OCT/SPIE/lbp_nri_non_flatten_r_1_hist_BoW_now_results/bow.pkl'
+
+# Load the results from the given path
+result = joblib.load(path_result)
+result_array = np.array(result)
+
+# Swap the two first axis
+result_array = np.rollaxis(result_array, 0, 2)
+
+# Go throught the different words
+for idx_w, w in enumerate(result_array):
+    
+    normal = 0.
+    dme = 0.
+    # Extract the results on the testing set
+    for cv in w[:, 0]:
+            
+        if cv[0] == 0:
+            normal += 1.
+        if cv[1] == 1:
+            dme += 1.
+
+    print '----- # WORDS {} -----'.format(nw[idx_w])
+    print 'The statistic are the following:'
+    print 'Sensitivity: {} - Specificity: {}'.format(dme / float(result_array.shape[1]),
+                                                     normal / float(result_array.shape[1]))
+    print 'DME: {} / {} - Normal: {}/ {}'.format(dme,
+                                                 float(result_array.shape[1]),
+                                                 normal,
+                                                 float(result_array.shape[1]))
+    print ''
+
+print '----- RADIUS  2 -----'
+
+path_result = '/work/le2i/gu5306le/OCT/SPIE/lbp_nri_non_flatten_r_2_hist_BoW_now_results/bow.pkl'
+
+# Load the results from the given path
+result = joblib.load(path_result)
+result_array = np.array(result)
+
+# Swap the two first axis
+result_array = np.rollaxis(result_array, 0, 2)
+
+# Go throught the different words
+for idx_w, w in enumerate(result_array):
+    
+    normal = 0.
+    dme = 0.
+    # Extract the results on the testing set
+    for cv in w[:, 0]:
+            
+        if cv[0] == 0:
+            normal += 1.
+        if cv[1] == 1:
+            dme += 1.
+
+    print '----- # WORDS {} -----'.format(nw[idx_w])
+    print 'The statistic are the following:'
+    print 'Sensitivity: {} - Specificity: {}'.format(dme / float(result_array.shape[1]),
+                                                     normal / float(result_array.shape[1]))
+    print 'DME: {} / {} - Normal: {}/ {}'.format(dme,
+                                                 float(result_array.shape[1]),
+                                                 normal,
+                                                 float(result_array.shape[1]))
+    print ''
+
+print ''
+print 'LBP NRI FLATTEN - BoW - Sliding Window'
+print ''
+
+nw = [32, 100, 500, 1000, 2000, 3000]
+
+path_result = '/work/le2i/gu5306le/OCT/SPIE/lbp_nri_flatten_r_1_hist_BoW_now_results/bow.pkl'
 
 # Load the results from the given path
 result = joblib.load(path_result)

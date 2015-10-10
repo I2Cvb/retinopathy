@@ -35,7 +35,7 @@ gt = gt_csv.values
 data_filename = gt[:, 0]
 
 # Get the good extension
-radius = 1
+radius = 2
 data_filename = np.array([f + '_nlm_flatten_lbp_flatten_' + str(radius) + '_hist.npz' for f in data_filename])
 
 label = gt[:, 1]
@@ -77,8 +77,10 @@ else:
 
         # Create the codebook using the training data
         num_cores = 8
-        list_n_words = [32]
-        cbook = [CodeBook(n_words=w, n_jobs=num_cores, n_init=5) for w in list_n_words]
+        list_n_words = [32, 100, 500, 1000, 2000, 3000]
+        #cbook = [CodeBook(n_words=w, n_jobs=num_cores, n_init=5) for w in list_n_words]
+        cbook = [CodeBook(n_words=w, init='random', n_jobs=num_cores, n_init=1, cluster_core='random-words')
+                 for w in list_n_words]
 
         # Fit each code book for the data currently open
         for idx_cb, c in enumerate(cbook):
@@ -94,7 +96,7 @@ else:
         codebook_list.append(CBComputation(idx_test, (pat_test_norm, pat_test_dme), filename_normal, filename_dme, data_folder))
 
     # We have to store the final codebook
-    path_to_save = '/work/le2i/gu5306le/OCT/lbp_nri_flatten_r_' + str(radius) + '_hist_codebook'
+    path_to_save = '/work/le2i/gu5306le/OCT/lbp_nri_flatten_r_' + str(radius) + '_hist_codebook_random'
     if not os.path.exists(path_to_save):
         os.makedirs(path_to_save)
 

@@ -1,4 +1,4 @@
-#title           :classification_lbp_now.py
+#title           :classification_lbp_top.py
 #description     :This will create a header for a python script.
 #author          :Guillaume Lemaitre
 #date            :2015/06/07
@@ -12,6 +12,7 @@
 import numpy as np
 # Panda library
 import pandas as pd
+import scipy.io as sio  
 # OS library
 import os
 from os.path import join
@@ -32,8 +33,11 @@ gt = gt_csv.values
 data_filename = gt[:, 0]
 
 # Get the good extension
-radius = 3
-data_filename = np.array([f + '_nlm_lbp_nri_' + str(radius) + '_hist.npz' for f in data_filename])
+radius2 = 3
+radius = 24
+# LBP TOP mat filename
+#data_filename = np.array([f + '_nlm_' + str(radius) + 'u_LbpTop_u.mat' for f in data_filename])
+data_filename = np.array([f + '_nlm_flatten_' + str(radius) + 'u_LbpTop_u.mat' for f in data_filename])
 
 label = gt[:, 1]
 label = ((label + 1.) / 2.).astype(int)
@@ -50,10 +54,16 @@ else:
     filename_normal = data_filename[label == 0]
     filename_dme = data_filename[label == 1]
 
-    data_folder = '/work/le2i/gu5306le/OCT/lbp_nri_non_flatten_r_' + str(radius) + '_hist_data_npz'
-    
-    get_lbp_data = lambda f: np.load(join(data_folder, f))['vol_lbp_hist'].reshape(-1)
-    
+    # Get the right directory where the matfile are locatd
+    data_folder = '/user1/le2i/gu5306le/Work/OCT_processing/features/'
+
+    # change np.load by sp.loadmat
+    # 
+    #get_lbp_data = lambda f: sio.loadmat(join(data_folder, f))['Histogram'].reshape(-1)
+    def get_lbp_data(f):
+        fmat = sio.loadmat(join(data_folder, f))
+        return np.ravel(fmat.get('Histogram'))
+
     results_cv = []
     for idx_test, (pat_test_norm, pat_test_dme) in enumerate(zip(filename_normal, filename_dme)):
 
@@ -92,7 +102,7 @@ else:
         results_cv.append((pred_label, roc))
 
     # We have to store the final codebook
-    path_to_save = '/work/le2i/gu5306le/OCT/SPIE/lbp_nri_non_flatten_r_' + str(radius) + '_hist_results'
+    path_to_save = '/work/le2i/gu5306le/OCT/SPIE/lbptop_nri_flatten_r_' + str(radius2) + '_results'
     if not os.path.exists(path_to_save):
         os.makedirs(path_to_save)
 
