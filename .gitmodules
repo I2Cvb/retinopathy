@@ -4,3 +4,6 @@
 [submodule "doc/miccai-2015-omia"]
 	path = doc/miccai-2015-omia
 	url = https://github.com/I2Cvb/oct-Report.git
+[submodule "third-party/protoclass"]
+	path = third-party/protoclass
+	url = https://github.com/glemaitre/protoclass
