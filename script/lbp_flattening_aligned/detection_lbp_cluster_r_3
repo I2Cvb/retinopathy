@@ -5,9 +5,9 @@ if [ "$#" != "1" ];
 then
     echo "**************************************************************"
     echo "Usage:"
-    echo "./flattening_cluster dataPath"
+    echo "./detection_lbp_cluster_r_1 dataPath"
     echo
-    echo "Example: ./flattening_cluster ~/Home/Data/"
+    echo "Example: ./detection_lbp_flatten_cluster ~/Home/Data/"
     echo " "
     echo "Current entry: $0 $*"
     echo "**************************************************************"
@@ -19,7 +19,8 @@ fi
 # Affect the input folder for the data
 data_path=$1
 
-str_path="/work/le2i/gu5306le/OCT/flatten_aligned_npz"
+radius=3
+str_path="/work/le2i/gu5306le/retinopathy/OCT/SERI/feature_data/flatten/lbp_riu/r_${radius}_data_npz"
 
 # Keep the directory of the script into a variable
 script_dir=$(pwd)
@@ -38,7 +39,7 @@ for patient in $data_path*; do
     ### Truncate the file if it is existing
     : > $script_filename
     ### Write the command to execute
-    printf "ipython ../pipeline/feature-flattening/flattening.py \"${patient%/}\" \"$str_path\"" >> $script_filename
+    printf "ipython ../../pipeline/feature-detection/detection_lbp_riu.py \"${patient%/}\" \"$str_path\" ${radius}" >> $script_filename
     ### Make it executable
     chmod u+x $script_filename
     # Submit the job to the queue
