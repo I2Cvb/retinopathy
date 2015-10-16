@@ -27,7 +27,7 @@ from protoclass.extraction.codebook import *
 
 # Read the csv file with the ground truth
 #gt_csv_filename = '/DATA/OCT/data_organized/data.csv'
-gt_csv_filename = '/work/le2i/gu5306le/OCT/data.csv'
+gt_csv_filename = '/work/le2i/gu5306le/retinopathy/OCT/SERI/data.csv'
 gt_csv = pd.read_csv(gt_csv_filename)
 
 gt = gt_csv.values
@@ -35,8 +35,8 @@ gt = gt_csv.values
 data_filename = gt[:, 0]
 
 # Get the good extension
-radius = 3
-data_filename = np.array([f + '_nlm_lbp_nri_' + str(radius) + '_hist.npz' for f in data_filename])
+radius = sys.argv[1]
+data_filename = np.array([f + '_nlm_flatten_lbp_' + str(radius) + '_hist.npz' for f in data_filename])
 
 label = gt[:, 1]
 label = ((label + 1.) / 2.).astype(int)
@@ -53,7 +53,7 @@ else:
     filename_normal = data_filename[label == 0]
     filename_dme = data_filename[label == 1]
     
-    data_folder = '/work/le2i/gu5306le/OCT/lbp_nri_non_flatten_r_' + str(radius) + '_hist_now_data_npz'
+    data_folder = sys.argv[2]
 
     def CBComputation(idx_test, (pat_test_norm, pat_test_dme), filename_normal, filename_dme, data_folder):
 
@@ -74,11 +74,18 @@ else:
         testing_data = np.concatenate((np.load(join(data_folder, pat_test_norm))[vol_name], 
                                        np.load(join(data_folder, pat_test_dme))[vol_name]), 
                                       axis=0)
-
+        
+        print 'The size of the training dataset is {}'.format(training_data.shape)
+        print 'The size of the testing dataset is {}'.format(testing_data.shape)
+        
         # Create the codebook using the training data
-        num_cores = 40
-        list_n_words = [32]
-        cbook = [CodeBook(n_words=w, n_jobs=num_cores, n_init=5) for w in list_n_words]
+        num_cores = 8
+        list_n_words = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100,
+                        200, 300, 400, 500,
+                        1000, 2000, 3000, 4000, 5000]
+        #cbook = [CodeBook(n_words=w, n_jobs=num_cores, n_init=5) for w in list_n_words]
+        cbook = [CodeBook(n_words=w, init='random', n_jobs=num_cores, n_init=1, cluster_core='random-words')
+                 for w in list_n_words]
 
         # Fit each code book for the data currently open
         for idx_cb, c in enumerate(cbook):
@@ -92,9 +99,9 @@ else:
     codebook_list = []
     for idx_test, (pat_test_norm, pat_test_dme) in enumerate(zip(filename_normal, filename_dme)):
         codebook_list.append(CBComputation(idx_test, (pat_test_norm, pat_test_dme), filename_normal, filename_dme, data_folder))
-    
+
     # We have to store the final codebook
-    path_to_save = '/work/le2i/gu5306le/OCT/lbp_nri_non_flatten_r_' + str(radius) + '_hist_codebook'
+    path_to_save = join(data_folder, 'codebook_random')
     if not os.path.exists(path_to_save):
         os.makedirs(path_to_save)
 
