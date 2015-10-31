@@ -28,7 +28,7 @@ from protoclass.classification.classification import Classify
 
 # Read the csv file with the ground truth
 #gt_csv_filename = '/DATA/OCT/data_organized/data.csv'
-gt_csv_filename = '/work/le2i/gu5306le/OCT/data.csv'
+gt_csv_filename = '/work/le2i/gu5306le/retinopathy/OCT/SERI/data.csv'
 gt_csv = pd.read_csv(gt_csv_filename)
 
 gt = gt_csv.values
@@ -36,8 +36,8 @@ gt = gt_csv.values
 data_filename = gt[:, 0]
 
 # Get the good extension
-radius = 3
-data_filename = np.array([f + '_nlm_lbp_' + str(radius) + '_hist_now.npz' for f in data_filename])
+radius = sys.argv[1]
+data_filename = np.array([f + '_nlm_flatten_lbp_' + str(radius) + '_hist.npz' for f in data_filename])
 
 label = gt[:, 1]
 label = ((label + 1.) / 2.).astype(int)
@@ -54,8 +54,8 @@ else:
     filename_normal = data_filename[label == 0]
     filename_dme = data_filename[label == 1]
 
-    data_folder = '/work/le2i/gu5306le/OCT/lbp_r_' + str(radius) + '_hist_now_data_npz'
-    codebook_filename = '/work/le2i/gu5306le/OCT/final_lbp_r_' + str(radius) + '_hist_now_codebook/codebook.pkl'
+    data_folder = '/work/le2i/gu5306le/retinopathy/OCT/SERI/feature_data/flatten_aligned/lbp_riu/lbp_hist/lbp_local/r_' + str(radius) + '_hist_npz'
+    codebook_filename = '/work/le2i/gu5306le/retinopathy/OCT/SERI/feature_data/flatten_aligned/lbp_riu/lbp_hist/lbp_local/r_' + str(radius) + '_hist_npz/codebook_random/codebook.pkl'
     #codebook_filename = '/work/le2i/gu5306le/OCT/lbp_r_' + str(radius) + '_hist_now_codebook_random_3/codebook.pkl'
 
     get_lbp_data = lambda f: np.load(join(data_folder, f))['vol_lbp_hist']
@@ -71,7 +71,12 @@ else:
         pat_train_dme = np.delete(filename_dme, idx_test)
 
         results_by_codebook = []
-        for current_cbook in codebook_list[idx_test]:
+        nw = [10, 20, 30, 40, 50, 60, 70, 80, 90,
+              100, 200, 300, 400, 500,
+              1000, 2000, 3000, 4000, 5000]
+        for idx_words, current_cbook in enumerate(codebook_list[idx_test]):
+
+            print 'Analysis of the the codebook with {} words'.format(nw[idx_words])
             
             # Collect the current training data
             training_normal = [current_cbook.get_BoF_descriptor(get_lbp_data(f))[0] for f in pat_train_norm]
@@ -82,8 +87,8 @@ else:
             training_label = np.array([0]*len(training_normal) + [1]*len(training_dme), dtype=int)
 
             # Compose the testing
-            testing_data = np.array([current_cbook.get_BoF_descriptor(get_lbp_data(filename_normal[idx_test]))[0]
-                                     , current_cbook.get_BoF_descriptor(get_lbp_data(filename_dme[idx_test]))[0]])
+            testing_data = np.array([current_cbook.get_BoF_descriptor(get_lbp_data(filename_normal[idx_test]))[0],
+                                     current_cbook.get_BoF_descriptor(get_lbp_data(filename_dme[idx_test]))[0]])
             
             # Run the classification for this specific data
             pred_label, roc = Classify(training_data,
@@ -92,51 +97,16 @@ else:
                                        np.array([0, 1], dtype=int),
                                        classifier_str='random-forest',
                                        n_estimators=100,
-                                       n_jobs=50, max_features=None)
+                                       n_jobs=8, max_features=None)
                 
             results_by_codebook.append((pred_label, roc))
                 
         return results_by_codebook
     
-    # results_cv = []
-    # for idx_test, (pat_test_norm, pat_test_dme) in enumerate(zip(filename_normal, filename_dme)):
-
-    #     # Take the testing out and keep the rest for training
-    #     pat_train_norm = np.delete(filename_normal, idx_test)
-    #     pat_train_dme = np.delete(filename_dme, idx_test)
-
-    #     results_by_codebook = []
-    #     for current_cbook in codebook_list[idx_test]:
-    #         # Collect the current training data
-    #         training_normal = [current_cbook.get_BoF_descriptor(get_lbp_data(f))[0] for f in pat_train_norm]
-    #         training_dme = [current_cbook.get_BoF_descriptor(get_lbp_data(f))[0] for f in pat_train_dme]
-
-    #         # Compose the training ( data & labels )
-    #         training_data = np.array(training_normal+training_dme)
-    #         training_label = np.array([0]*len(training_normal) + [1]*len(training_dme), dtype=int)
-
-    #         # Compose the testing
-    #         testing_data = np.array([current_cbook.get_BoF_descriptor(get_lbp_data(filename_normal[idx_test]))[0]
-    #                                  , current_cbook.get_BoF_descriptor(get_lbp_data(filename_dme[idx_test]))[0]])
-
-    #         # Run the classification for this specific data
-    #         pred_label, roc = Classify(training_data,
-    #                                    training_label,
-    #                                    testing_data,
-    #                                    np.array([0, 1], dtype=int),
-    #                                    classifier_str='random-forest',
-    #                                    n_estimators=100,
-    #                                    n_jobs=50, max_features=None)
-
-    #         results_by_codebook.append((pred_label, roc))
-
-    #     results_cv.append(results_by_codebook)
-
-    
-    results_cv = Parallel(n_jobs=50)(delayed(ParallelClassification)(idx_test, (pat_test_norm, pat_test_dme), filename_normal, filename_dme, data_folder) for idx_test, (pat_test_norm, pat_test_dme) in enumerate(zip(filename_normal, filename_dme)))
+    results_cv = Parallel(n_jobs=1)(delayed(ParallelClassification)(idx_test, (pat_test_norm, pat_test_dme), filename_normal, filename_dme, data_folder) for idx_test, (pat_test_norm, pat_test_dme) in enumerate(zip(filename_normal, filename_dme)))
 
     # We have to store the final codebook
-    path_to_save = '/work/le2i/gu5306le/OCT/lbp_r_' + str(radius) + '_hist_BoW_now_results_final'
+    path_to_save = '/work/le2i/gu5306le/retinopathy/OCT/SERI/results/flatten_aligned/lbp_riu/lbp_local/r_' + str(radius) + '_bow'
     if not os.path.exists(path_to_save):
         os.makedirs(path_to_save)
 
