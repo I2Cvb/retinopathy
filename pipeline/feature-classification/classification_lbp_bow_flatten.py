@@ -46,6 +46,10 @@ from collections import Counter
 
 count_gt = Counter(label)
 
+config = [{'classifier_str' : 'knn', 'n_neighbors' : 3},
+          {'classifier_str' : 'knn', 'n_neighbors' : 5},
+          {'classifier_str' : 'knn', 'n_neighbors' : 7}]
+
 if (count_gt[0] != count_gt[1]):
     raise ValueError('Not balanced data.')
 else:
@@ -63,7 +67,9 @@ else:
 
     codebook_list = joblib.load(codebook_filename)
 
-    def ParallelClassification(idx_test, (pat_test_norm, pat_test_dme), filename_normal, filename_dme, data_folder):
+    def ParallelClassification(idx_test, (pat_test_norm, pat_test_dme),
+                               filename_normal, filename_dme,
+                               data_folder, config_class):
 
         
         # Take the testing out and keep the rest for training
@@ -95,20 +101,28 @@ else:
                                        training_label,
                                        testing_data,
                                        np.array([0, 1], dtype=int),
-                                       classifier_str='random-forest',
-                                       n_estimators=100,
-                                       n_jobs=8, max_features=None)
+                                       **config_class)
                 
             results_by_codebook.append((pred_label, roc))
                 
         return results_by_codebook
-    
-    results_cv = Parallel(n_jobs=1)(delayed(ParallelClassification)(idx_test, (pat_test_norm, pat_test_dme), filename_normal, filename_dme, data_folder) for idx_test, (pat_test_norm, pat_test_dme) in enumerate(zip(filename_normal, filename_dme)))
 
+
+    result_config = []
+    
+    for c in config:
+        print c
+    
+        results_cv = Parallel(n_jobs=1)(delayed(ParallelClassification)(idx_test, (pat_test_norm, pat_test_dme),
+                                                                        filename_normal, filename_dme, data_folder, c)
+                                        for idx_test, (pat_test_norm, pat_test_dme) in enumerate(zip(filename_normal, filename_dme)))
+
+        result_config.append(results_cv)
+        
     # We have to store the final codebook
-    path_to_save = '/work/le2i/gu5306le/retinopathy/OCT/SERI/results/flatten/lbp_riu/lbp_global/r_' + str(radius) + '_bow'
+    path_to_save = '/work/le2i/gu5306le/retinopathy/OCT/SERI/results/flatten/lbp_riu/lbp_global/r_' + str(radius) + '_bow_knn'
     if not os.path.exists(path_to_save):
         os.makedirs(path_to_save)
 
     from sklearn.externals import joblib
-    joblib.dump(results_cv, join(path_to_save, 'bow.pkl'))
+    joblib.dump(result_config, join(path_to_save, 'bow.pkl'))
