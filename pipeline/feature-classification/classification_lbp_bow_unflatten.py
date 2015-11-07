@@ -62,8 +62,8 @@ else:
     filename_normal = data_filename[label == 0]
     filename_dme = data_filename[label == 1]
 
-    data_folder = '/work/le2i/gu5306le/retinopathy/OCT/SERI/feature_data/flatten/lbp_riu/lbp_hist/lbp_local/r_' + str(radius) + '_hist_npz'
-    codebook_filename = '/work/le2i/gu5306le/retinopathy/OCT/SERI/feature_data/flatten/lbp_riu/lbp_hist/lbp_local/r_' + str(radius) + '_hist_npz/codebook_100/codebook.pkl'
+    data_folder = '/work/le2i/gu5306le/retinopathy/OCT/SERI/feature_data/non_flatten/lbp_riu/lbp_hist/lbp_global/r_' + str(radius) + '_hist_npz'
+    codebook_filename = '/work/le2i/gu5306le/retinopathy/OCT/SERI/feature_data/non_flatten/lbp_riu/lbp_hist/lbp_global/r_' + str(radius) + '_hist_npz/codebook_100/codebook.pkl'
     #codebook_filename = '/work/le2i/gu5306le/OCT/lbp_r_' + str(radius) + '_hist_now_codebook_random_3/codebook.pkl'
 
     get_lbp_data = lambda f: np.load(join(data_folder, f))['vol_lbp_hist']
@@ -109,19 +109,20 @@ else:
                 
         return results_by_codebook
 
+
     result_config = []
     
     for c in config:
         print c
-
+    
         results_cv = Parallel(n_jobs=1)(delayed(ParallelClassification)(idx_test, (pat_test_norm, pat_test_dme),
                                                                         filename_normal, filename_dme, data_folder, c)
                                         for idx_test, (pat_test_norm, pat_test_dme) in enumerate(zip(filename_normal, filename_dme)))
 
         result_config.append(results_cv)
-
+        
     # We have to store the final codebook
-    path_to_save = '/work/le2i/gu5306le/retinopathy/OCT/SERI/results/flatten/lbp_riu/lbp_local/r_' + str(radius) + '_bow_100'
+    path_to_save = '/work/le2i/gu5306le/retinopathy/OCT/SERI/results/non_flatten/lbp_riu/lbp_global/r_' + str(radius) + '_bow_100'
     if not os.path.exists(path_to_save):
         os.makedirs(path_to_save)
 

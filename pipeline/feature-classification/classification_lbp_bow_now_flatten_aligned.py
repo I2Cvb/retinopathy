@@ -46,9 +46,13 @@ from collections import Counter
 
 count_gt = Counter(label)
 
-config = [{'classifier_str' : 'knn', 'n_neighbors' : 3},
-          {'classifier_str' : 'knn', 'n_neighbors' : 5},
-          {'classifier_str' : 'knn', 'n_neighbors' : 7}]
+config = [{'classifier_str' : 'random-forest', 'n_estimators' : 100, 'gs_n_jobs' : 8},
+          {'classifier_str' : 'knn', 'n_neighbors' : 3, 'gs_n_jobs' : 8},
+          {'classifier_str' : 'knn', 'n_neighbors' : 5, 'gs_n_jobs' : 8},
+          {'classifier_str' : 'knn', 'n_neighbors' : 7, 'gs_n_jobs' : 8},
+          {'classifier_str' : 'logistic-regression', 'gs_n_jobs' : 8},
+          {'classifier_str' : 'kernel-svm', 'gs_n_jobs' : 8},
+          {'classifier_str' : 'gradient-boosting', 'n_estimators' : 100, 'gs_n_jobs' : 8}]
 
 if (count_gt[0] != count_gt[1]):
     raise ValueError('Not balanced data.')
@@ -59,7 +63,7 @@ else:
     filename_dme = data_filename[label == 1]
 
     data_folder = '/work/le2i/gu5306le/retinopathy/OCT/SERI/feature_data/flatten_aligned/lbp_riu/lbp_hist/lbp_local/r_' + str(radius) + '_hist_npz'
-    codebook_filename = '/work/le2i/gu5306le/retinopathy/OCT/SERI/feature_data/flatten_aligned/lbp_riu/lbp_hist/lbp_local/r_' + str(radius) + '_hist_npz/codebook_random/codebook.pkl'
+    codebook_filename = '/work/le2i/gu5306le/retinopathy/OCT/SERI/feature_data/flatten_aligned/lbp_riu/lbp_hist/lbp_local/r_' + str(radius) + '_hist_npz/codebook_100/codebook.pkl'
     #codebook_filename = '/work/le2i/gu5306le/OCT/lbp_r_' + str(radius) + '_hist_now_codebook_random_3/codebook.pkl'
 
     get_lbp_data = lambda f: np.load(join(data_folder, f))['vol_lbp_hist']
@@ -77,9 +81,7 @@ else:
         pat_train_dme = np.delete(filename_dme, idx_test)
 
         results_by_codebook = []
-        nw = [10, 20, 30, 40, 50, 60, 70, 80, 90,
-              100, 200, 300, 400, 500,
-              1000, 2000, 3000, 4000, 5000]
+        nw = [100]
         for idx_words, current_cbook in enumerate(codebook_list[idx_test]):
 
             print 'Analysis of the the codebook with {} words'.format(nw[idx_words])
@@ -119,7 +121,7 @@ else:
         result_config.append(results_cv)
 
     # We have to store the final codebook
-    path_to_save = '/work/le2i/gu5306le/retinopathy/OCT/SERI/results/flatten_aligned/lbp_riu/lbp_local/r_' + str(radius) + '_bow_knn'
+    path_to_save = '/work/le2i/gu5306le/retinopathy/OCT/SERI/results/flatten_aligned/lbp_riu/lbp_local/r_' + str(radius) + '_bow_100'
     if not os.path.exists(path_to_save):
         os.makedirs(path_to_save)
 
