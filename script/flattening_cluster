@@ -19,7 +19,7 @@ fi
 # Affect the input folder for the data
 data_path=$1
 
-str_path="/work/le2i/gu5306le/OCT/flatten_aligned_npz"
+str_path="/work/le2i/gu5306le/retinopathy/OCT/flatten_aligned_npz"
 
 # Keep the directory of the script into a variable
 script_dir=$(pwd)

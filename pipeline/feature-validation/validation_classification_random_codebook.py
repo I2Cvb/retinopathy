@@ -16,7 +16,7 @@ def report_plot(path, nw, config):
 
     for radius in range(1, 4):
 
-        path_result = path + '/r_' + str(radius) + '_bow_knn/bow.pkl'
+        path_result = path + '/r_' + str(radius) + '_bow_random/bow.pkl'
 
         print '----- # RADIUS {} -----'.format(radius)
 
@@ -67,54 +67,62 @@ def report_plot(path, nw, config):
                                                              float(result_array.shape[1]))
                 print ''
 
-        #     if (radius == 1):
-        #         ax1.semilogx(np.array(nw), accuracy_word, label='Accuracy - Radius ' + str(radius))
-        #         ax1.semilogx(np.array(nw), f1_word, label='F1 score - Radius ' + str(radius))
-        #         ax1.legend(bbox_to_anchor=(0., 1.02, 1., .102), loc=3, ncol=2, mode="expand", borderaxespad=0.)
-        #     elif (radius == 2):
-        #         ax2.semilogx(np.array(nw), accuracy_word, label='Accuracy - Radius ' + str(radius))
-        #         ax2.semilogx(np.array(nw), f1_word, label='F1 score - Radius ' + str(radius))
-        #         ax2.legend(bbox_to_anchor=(0., 1.02, 1., .102), loc=3, ncol=2, mode="expand", borderaxespad=0.)
-        #     elif (radius == 3):
-        #         ax3.semilogx(np.array(nw), accuracy_word, label='Accuracy - Radius ' + str(radius))
-        #         ax3.semilogx(np.array(nw), f1_word, label='F1 score - Radius ' + str(radius))
-        #         ax3.legend(bbox_to_anchor=(0., 1.02, 1., .102), loc=3, ncol=2, mode="expand", borderaxespad=0.)
+            if (radius == 1):
+                ax1.semilogx(np.array(nw), accuracy_word, label='Accuracy - Radius ' + str(radius))
+                ax1.semilogx(np.array(nw), f1_word, label='F1 score - Radius ' + str(radius))
+                ax1.legend(bbox_to_anchor=(0., 1.02, 1., .102), loc=3, ncol=2, mode="expand", borderaxespad=0.)
+            elif (radius == 2):
+                ax2.semilogx(np.array(nw), accuracy_word, label='Accuracy - Radius ' + str(radius))
+                ax2.semilogx(np.array(nw), f1_word, label='F1 score - Radius ' + str(radius))
+                ax2.legend(bbox_to_anchor=(0., 1.02, 1., .102), loc=3, ncol=2, mode="expand", borderaxespad=0.)
+            elif (radius == 3):
+                ax3.semilogx(np.array(nw), accuracy_word, label='Accuracy - Radius ' + str(radius))
+                ax3.semilogx(np.array(nw), f1_word, label='F1 score - Radius ' + str(radius))
+                ax3.legend(bbox_to_anchor=(0., 1.02, 1., .102), loc=3, ncol=2, mode="expand", borderaxespad=0.)
 
-        #     # Fine-tune figure; make subplots close to each other and hide x ticks for
-        #     # all but bottom plot.
-        #     f.subplots_adjust(hspace=.2)
+            # Fine-tune figure; make subplots close to each other and hide x ticks for
+            # all but bottom plot.
+            f.subplots_adjust(hspace=.2)
 
-        # plt.xlabel('Number of words')
-        # plt.show()
+        plt.xlabel('Number of words')
+        plt.show()
 
 config = [{'classifier_str' : 'knn', 'n_neighbors' : 3},
           {'classifier_str' : 'knn', 'n_neighbors' : 5},
           {'classifier_str' : 'knn', 'n_neighbors' : 7}]
 
 nw = [10, 20, 30, 40, 50, 60, 70, 80, 90,
-      100, 200, 300, 400, 500,
-      1000]
+      100, 200, 300, 400, 500]
 
 # Define the path for flatten image
-path_result = '/data/retinopathy/OCT/SERI/results/flatten/lbp_riu/lbp_global'
+path_result = '/work/le2i/gu5306le/retinopathy/OCT/Duke/results/flatten_aligned/lbp_riu/lbp_local'
 
 report_plot(path_result, nw, config)
 
-# Define the path for flatte and aligned image 
-path_result = '/data/retinopathy/OCT/SERI/results/flatten_aligned/lbp_riu/lbp_global'
+# nw = [10, 20, 30, 40, 50, 60, 70, 80, 90,
+#       100, 200, 300, 400, 500,
+#       1000]
 
-report_plot(path_result, nw, config)
+# # Define the path for flatten image
+# path_result = '/data/retinopathy/OCT/SERI/results/flatten/lbp_riu/lbp_global'
 
-nw = [10, 20, 30, 40, 50, 60, 70, 80, 90,
-      100, 200, 300, 400, 500,
-      1000, 2000, 3000, 4000, 5000]
+# report_plot(path_result, nw, config)
 
-# Define the path for flatten image
-path_result = '/data/retinopathy/OCT/SERI/results/flatten/lbp_riu/lbp_local'
+# # Define the path for flatte and aligned image 
+# path_result = '/data/retinopathy/OCT/SERI/results/flatten_aligned/lbp_riu/lbp_global'
 
-report_plot(path_result, nw, config)
+# report_plot(path_result, nw, config)
 
-# Define the path for flatte and aligned image 
-path_result = '/data/retinopathy/OCT/SERI/results/flatten_aligned/lbp_riu/lbp_local'
+# nw = [10, 20, 30, 40, 50, 60, 70, 80, 90,
+#       100, 200, 300, 400, 500,
+#       1000, 2000, 3000, 4000, 5000]
 
-report_plot(path_result, nw, config)
+# # Define the path for flatten image
+# path_result = '/data/retinopathy/OCT/SERI/results/flatten/lbp_riu/lbp_local'
+
+# report_plot(path_result, nw, config)
+
+# # Define the path for flatte and aligned image 
+# path_result = '/data/retinopathy/OCT/SERI/results/flatten_aligned/lbp_riu/lbp_local'
+
+# report_plot(path_result, nw, config)
