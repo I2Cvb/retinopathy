@@ -100,7 +100,7 @@ config = [{'classifier_str' : 'random-forest', 'n_estimators' : 100, 'gs_n_jobs'
 nw = [100]
 
 # Define the path for flatten image
-path_result = '/work/le2i/gu5306le/retinopathy/OCT/Duke/results/flatten_aligned/lbp_riu/lbp_local'
+path_result = '/data/retinopathy/OCT/SERI/results/non_flatten/lbp_riu/lbp_global'
 
 report_plot(path_result, nw, config)
 
@@ -111,6 +111,16 @@ report_plot(path_result, nw, config)
 
 # # Define the path for flatte and aligned image 
 # path_result = '/data/retinopathy/OCT/SERI/results/flatten_aligned/lbp_riu/lbp_global'
+
+# report_plot(path_result, nw, config)
+
+# # Define the path for flatten image
+# path_result = '/data/retinopathy/OCT/SERI/results/flatten/lbp_riu/lbp_local'
+
+# report_plot(path_result, nw, config)
+
+# # Define the path for flatte and aligned image 
+# path_result = '/data/retinopathy/OCT/SERI/results/non_flatten/lbp_riu/lbp_local'
 
 # report_plot(path_result, nw, config)
 
