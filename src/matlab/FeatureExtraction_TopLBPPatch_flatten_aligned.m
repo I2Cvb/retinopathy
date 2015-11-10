@@ -4,7 +4,7 @@
 %%% UB - 8-06-15
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-function FeatureExtraction_TopLBPPatch(aaaaaaaa)
+function FeatureExtraction_TopLBPPatch_flatten_aligned(aaaaaaaa)
 
 addpath ./STLBP_Matlab/
 addpath ./basic_functions/
@@ -32,7 +32,7 @@ List = List(3:end);
 %zendIdx = 16:16:1024; 
 %[X, Z,Y] = meshgrid(1:32, 1:64, 1:8); 
 %X = X(:) ; Z = Z(:); Y= Y(:);
-for mId =  1 : 3
+for mId =  2 : 3
     load(fullfile(mapPath, Maps(mId,1:MapsLength(mId)))); 
     resultPath = fullfile(resPath, ['r_' num2str(mId) '_hist_mat']); 
     %poolobj= parpool('local', 20)
@@ -64,7 +64,8 @@ for mId =  1 : 3
 
         for pId = 1 : length(X)
 		    PVolume = CurrVolData(xstrIdx(X(pId)):xendIdx(X(pId)),zstrIdx(Z(pId)):zendIdx(Z(pId)) , ystrIdx(Y(pId)):yendIdx(Y(pId))); 
-           bBilinearInterpolation = 0;
+                    bBilinearInterpolation = 0;
+                    TInterval = 1;
            histemp = LBPTOP(PVolume, FxRadius, FyRadius, TInterval, NeighborPoints, TimeLength, BorderLength, bBilinearInterpolation, Bincount, Code);
            His = [];
            His = [His, histemp(1,:), histemp(2,:), histemp(3,:)];

@@ -1,0 +1,1 @@
+matlab -nosplash -jvm -nodisplay -r 'FeatureExtraction_TopLBP_flatten(1)'
