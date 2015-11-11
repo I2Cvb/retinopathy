@@ -22,54 +22,66 @@ List = List(3:end);
 
 List = dir (dataPath); 
 List = List(3:end);
+overlap = [1 2 3];
+w = [9 11 13];
 
-%%% Dividing to 16 * 16 pixels patches 
-%ystrIdx = 1:16:128; 
-%yendIdx = 16:16:128; 
-%xstrIdx = 1:16:512; 
-%xendIdx = 16:16:512;
-%zstrIdx = 1:16:1024; 
-%zendIdx = 16:16:1024; 
-%[X, Z,Y] = meshgrid(1:32, 1:64, 1:8); 
-%X = X(:) ; Z = Z(:); Y= Y(:);
-for mId =  2 : 3
+
+for mId =  1 : 3
     load(fullfile(mapPath, Maps(mId,1:MapsLength(mId)))); 
     resultPath = fullfile(resPath, ['r_' num2str(mId) '_hist_mat']); 
-    %poolobj= parpool('local', 20)
+
     for fileId = 1 : length(List)
         VolData =  load(fullfile(dataPath, List(fileId).name));
         VolData = VolData.vol_flatten; 
         CurrVolData = zeros(size(VolData,1), size(VolData,3), size(VolData,2)); 
+        CurrVolData = zeros(size(VolData,1), size(VolData,3), size(VolData,2));
+        CurrVolDataPad = zeros(size(VolData,1)+2*overlap(mId), size(VolData,3)+2*overlap(mId), size(VolData,2)+2*overlap(mId));
+
         for i = 1 : size(VolData,2)
-            CurrVolData(:,:,i) = reshape(VolData(:,i,:), [size(VolData,1) size(VolData,3)]); 
+         CurrVolData(:,:,i) = reshape(VolData(:,i,:), [size(VolData,1) size(VolData,3)]);
+          % Padding the volume to be able to
+          % get the right number of
+          % pixels per histogram
+          CurrVolDataPad(:,:,i+1) =  padarray(CurrVolData(:,:,i), [overlap(mId) overlap(mId)], 'replicate');
         end
+        % The first and last slice of the volume are
+        % repeated twice
+        CurrVolDataPad(:,:,1) = CurrVolDataPad(:,:,2);
+        CurrVolDataPad(:,:,end) =  CurrVolDataPad(:,:,end-1);
 
-        ystrIdx = 1:7:size(CurrVolData, 3);
-        if rem(size(CurrVolData, 3), 7) ~= 0
-            ystrIdx(end) = [];
-        end
-        yendIdx = 7:7:size(CurrVolData, 3);
-        xstrIdx = 1:7:size(CurrVolData, 1);
-        if rem(size(CurrVolData, 1) , 7) ~= 0
-            xstrIdx(end) = [];
-        end
-        xendIdx = 7:7:size(CurrVolData, 1);
-        zstrIdx = 1:7:size(CurrVolData, 2);
-        if rem(size(CurrVolData, 2), 7) ~= 0
-            zstrIdx(end) = [];
-        end
-        zendIdx = 7:7:size(CurrVolData, 2);
-        [X, Z, Y] = meshgrid(1: length(xendIdx), 1:length(zendIdx), 1:length(yendIdx));
-        X = X(:) ; Z = Z(:); Y = Y(:); 
-
-        for pId = 1 : length(X)
-		    PVolume = CurrVolData(xstrIdx(X(pId)):xendIdx(X(pId)),zstrIdx(Z(pId)):zendIdx(Z(pId)) , ystrIdx(Y(pId)):yendIdx(Y(pId))); 
+         % the window size for each radius of
+         % LBP
+         % The windows are calculated on th Pad Volume
+         n = w(mId);
+         ystrIdx = 1:n:size(CurrVolDataPad, 3);
+          if rem(size(CurrVolDataPad, 3), n) ~= 0
+              ystrIdx(end) = [];
+          end
+         yendIdx =  n:n: size(CurrVolDataPad, 3);
+         xstrIdx =  1: n: size(CurrVolDataPad, 1);
+         if rem(size(CurrVolDataPad, 1) , n) ~= 0
+                  xstrIdx(end) = [];
+          end
+         xendIdx = n:n:size(CurrVolDataPad, 1);
+         zstrIdx = 1:n:size(CurrVolDataPad, 2);
+          if rem(size(CurrVolDataPad, 2), n) ~= 0
+                zstrIdx(end) = [];
+          end 
+         zendIdx = n:n:size(CurrVolDataPad, 2);
+         [X, Z, Y] = meshgrid(1: length(xendIdx), 1:length(zendIdx), 1:length(yendIdx));
+         X = X(:) ; Z = Z(:); Y = Y(:);
+         xstrIdx(2:end) = xstrIdx(2:end)-(2*overlap(mId));
+         ystrIdx(2:end) = ystrIdx(2:end)-(2*overlap(mId));
+         zstrIdx(2:end) = zstrIdx(2:end)-(2*overlap(mId)); 
+         for pId = 1 : length(X)
+             
+		    PVolume = CurrVolDataPad(xstrIdx(X(pId)):xendIdx(X(pId)),zstrIdx(Z(pId)):zendIdx(Z(pId)) , ystrIdx(Y(pId)):yendIdx(Y(pId))); 
                     bBilinearInterpolation = 0;
                     TInterval = 1;
-           histemp = LBPTOP(PVolume, FxRadius, FyRadius, TInterval, NeighborPoints, TimeLength, BorderLength, bBilinearInterpolation, Bincount, Code);
-           His = [];
-           His = [His, histemp(1,:), histemp(2,:), histemp(3,:)];
-H(fileId).Histogram{pId} = His; 
+                    histemp = LBPTOP(PVolume, FxRadius, FyRadius, TInterval, NeighborPoints, TimeLength, BorderLength, bBilinearInterpolation, Bincount, Code);
+                    His = [];
+                    His = [His, histemp(1,:), histemp(2,:), histemp(3,:)];
+                    H(fileId).Histogram{pId} = His; 
         end
 
         

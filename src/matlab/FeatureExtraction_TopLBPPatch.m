@@ -4,15 +4,15 @@
 %%% UB - 8-06-15
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-function FeatureExtraction_TopLBPPatch_flatten(aaaaaaaa)
+function FeatureExtraction_TopLBPPatch(aaaaaaaa)
 
 addpath ./STLBP_Matlab/
 addpath ./basic_functions/
 mapPath = '/user1/le2i/gu5306le/Work/OCT_processing/toolbox/STLBP_Matlab/maps'; 
 Maps = char('8_RIU.mat', '16_RIU.mat', '24_RIU.mat'); 
 MapsLength = [9 10 10]; 
-dataPath = '/fhgfs/data/work/le2i/gu5306le/retinopathy/OCT/SERI/pre_processed_data/flatten_mat/'; 
-resPath = '/fhgfs/data/work/le2i/gu5306le/retinopathy/OCT/SERI/feature_data/flatten/lbp_riu/lbp_hist_top/lbp_local/'; 
+dataPath = '/fhgfs/data/work/le2i/gu5306le/retinopathy/OCT/SERI/pre_processed_data/nlm_data_mat/'; 
+resPath = '/fhgfs/data/work/le2i/gu5306le/retinopathy/OCT/SERI/feature_data/nlm_data_mat/lbp_riu/lbp_hist_top/lbp_local/'; 
 
 mapsname = char ('8ru', '16ru', '24ru');
 mapsnameL = [3 4 4]; 
