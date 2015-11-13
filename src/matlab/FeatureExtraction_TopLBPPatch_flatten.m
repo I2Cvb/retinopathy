@@ -30,7 +30,7 @@ for mId =  3 : 3
     load(fullfile(mapPath, Maps(mId,1:MapsLength(mId)))); 
     resultPath = fullfile(resPath, ['r_' num2str(mId) '_hist_mat']); 
 
-    for fileId = 9:9 %1 : length(List)
+    for fileId = 1:9 %1 : length(List)
         VolData =  load(fullfile(dataPath, List(fileId).name));
         VolData = VolData.vol_flatten; 
         CurrVolData = zeros(size(VolData,1), size(VolData,3), size(VolData,2)); 
@@ -87,7 +87,7 @@ for mId =  3 : 3
         
      end
         %delete(poolobj)
-     for fileId = 1 : length(List)
+     for fileId = 1 :9 %1 : length(List)
         Volname = List(fileId).name;
         Volname = Volname(1:end-4);  
         Histogram  = H(fileId).Histogram; 
