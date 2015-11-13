@@ -56,7 +56,7 @@ data_path=$2
 # Keep the directory of the script into a variable
 script_dir=$(pwd)
 # Create an automatic script
-script_filename_core='/script_flatten_r_'
+script_filename_core='/script_non_flatten_lbptop_r_'
 script_filename="$script_dir$script_filename_core$radius$patient_idx"
 ### Create the file
 touch $script_filename

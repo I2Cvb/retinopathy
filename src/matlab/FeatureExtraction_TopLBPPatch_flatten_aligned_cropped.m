@@ -4,15 +4,15 @@
 %%% UB - 8-06-15
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-function FeatureExtraction_TopLBPPatch(aaaaaaaa)
+function FeatureExtraction_TopLBPPatch_flatten_aligned_cropped(aaaaaaaa)
 
 addpath ./STLBP_Matlab/
 addpath ./basic_functions/
 mapPath = '/user1/le2i/gu5306le/Work/OCT_processing/toolbox/STLBP_Matlab/maps'; 
 Maps = char('8_RIU.mat', '16_RIU.mat', '24_RIU.mat'); 
 MapsLength = [9 10 10]; 
-dataPath = '/fhgfs/data/work/le2i/gu5306le/retinopathy/OCT/SERI/pre_processed_data/nlm_data_mat/'; 
-resPath = '/fhgfs/data/work/le2i/gu5306le/retinopathy/OCT/SERI/feature_data/non_flatten/lbp_riu/lbp_hist_top/lbp_local/'; 
+dataPath = '/fhgfs/data/work/le2i/gu5306le/retinopathy/OCT/SERI/pre_processed_data/flatten_aligned_cropping_mat/'; 
+resPath = '/fhgfs/data/work/le2i/gu5306le/retinopathy/OCT/SERI/feature_data/flatten_aligned_cropped/lbp_riu/lbp_hist_top/lbp_local/'; 
 
 mapsname = char ('8ru', '16ru', '24ru');
 mapsnameL = [3 4 4]; 
@@ -32,7 +32,7 @@ for mId =  1 : 3
 
     for fileId = 1 : length(List)
         VolData =  load(fullfile(dataPath, List(fileId).name));
-        VolData = VolData.vol_denoised; 
+        VolData = VolData.vol_flatten; 
         CurrVolData = zeros(size(VolData,1), size(VolData,3), size(VolData,2)); 
         CurrVolData = zeros(size(VolData,1), size(VolData,3), size(VolData,2));
         CurrVolDataPad = zeros(size(VolData,1)+2*overlap(mId), size(VolData,3)+2*overlap(mId), size(VolData,2)+2*overlap(mId));

@@ -20,7 +20,7 @@ fi
 data_path=$1
 
 radius=1
-str_path="/work/le2i/gu5306le/retinopathy/OCT/SERI/feature_data/flatten_aligned/lbp_riu/lbp_desc/r_${radius}_data_npz"
+str_path="/work/le2i/gu5306le/retinopathy/OCT/SERI/feature_data/flatten_aligned_cropped/lbp_riu/lbp_desc/r_${radius}_data_npz"
 
 # Keep the directory of the script into a variable
 script_dir=$(pwd)

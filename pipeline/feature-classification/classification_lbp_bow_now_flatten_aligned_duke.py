@@ -46,7 +46,7 @@ from collections import Counter
 
 count_gt = Counter(label)
 
-config = [{'classifier_str' : 'random-forest', 'n_estimators' : 100, 'gs_n_jobs' : 8, 'max_features' : None},
+config = [{'classifier_str' : 'random-forest', 'n_estimators' : 100, 'gs_n_jobs' : 8,},
           {'classifier_str' : 'knn', 'n_neighbors' : 3, 'gs_n_jobs' : 8},
           {'classifier_str' : 'knn', 'n_neighbors' : 5, 'gs_n_jobs' : 8},
           {'classifier_str' : 'knn', 'n_neighbors' : 7, 'gs_n_jobs' : 8},

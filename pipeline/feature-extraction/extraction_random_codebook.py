@@ -61,7 +61,7 @@ else:
         pat_train_dme = np.delete(filename_dme, idx_test)
 
         # open the training data
-        vol_name = 'vol_lbp_hist'
+        vol_name = 'vol_lbp_top_hist'
         training_data = np.concatenate((np.concatenate([np.load(join(data_folder, f))[vol_name] 
                                                         for f in pat_train_norm], axis=0),
                                         np.concatenate([np.load(join(data_folder, f))[vol_name] 
@@ -80,9 +80,9 @@ else:
         
         # Create the codebook using the training data
         num_cores = 8
-        list_n_words = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100,
-                        200, 300, 400, 500,
-                        1000, 2000, 3000, 4000, 5000]
+        list_n_words = [10, 20, 30, 40, 50, 60, 70, 80, 90,
+                        100, 200, 300, 400, 500,
+                        1000]
         #cbook = [CodeBook(n_words=w, n_jobs=num_cores, n_init=5) for w in list_n_words]
         cbook = [CodeBook(n_words=w, init='random', n_jobs=num_cores, n_init=1, cluster_core='random-words')
                  for w in list_n_words]

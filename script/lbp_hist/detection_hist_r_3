@@ -21,8 +21,8 @@ data_path=$1
 
 radius=3
 
-str_path_npz="/work/le2i/gu5306le/retinopathy/OCT/SERI/feature_data/flatten_aligned/lbp_riu/lbp_hist/lbp_global/r_${radius}_hist_npz"
-str_path_mat="/work/le2i/gu5306le/retinopathy/OCT/SERI/feature_data/flatten_aligned/lbp_riu/lbp_hist/lbp_global/r_${radius}_hist_mat"
+str_path_npz="/work/le2i/gu5306le/retinopathy/OCT/SERI/feature_data/flatten_aligned_cropped/lbp_riu/lbp_hist/lbp_global/r_${radius}_hist_npz"
+str_path_mat="/work/le2i/gu5306le/retinopathy/OCT/SERI/feature_data/flatten_aligned_cropped/lbp_riu/lbp_hist/lbp_global/r_${radius}_hist_mat"
 
 # Keep the directory of the script into a variable
 script_dir=$(pwd)
