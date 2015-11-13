@@ -92,12 +92,21 @@ config = [{'classifier_str' : 'knn', 'n_neighbors' : 3},
           {'classifier_str' : 'knn', 'n_neighbors' : 7}]
 
 nw = [10, 20, 30, 40, 50, 60, 70, 80, 90,
-      100, 200, 300, 400, 500]
+      100, 200, 300, 400, 500,
+      1000]
 
 # Define the path for flatten image
-path_result = '/work/le2i/gu5306le/retinopathy/OCT/Duke/results/flatten_aligned/lbp_riu/lbp_local'
+path_result = '/data/retinopathy/OCT/SERI/results/non_flatten/lbp_riu/lbp_local'
 
 report_plot(path_result, nw, config)
+
+# nw = [10, 20, 30, 40, 50, 60, 70, 80, 90,
+#       100, 200, 300, 400, 500]
+
+# # Define the path for flatten image
+# path_result = '/work/le2i/gu5306le/retinopathy/OCT/Duke/results/flatten_aligned/lbp_riu/lbp_local'
+
+# report_plot(path_result, nw, config)
 
 # nw = [10, 20, 30, 40, 50, 60, 70, 80, 90,
 #       100, 200, 300, 400, 500,
