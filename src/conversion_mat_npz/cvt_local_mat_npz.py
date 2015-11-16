@@ -57,7 +57,7 @@ gt = gt_csv.values
 data_filename = gt[:, 0]
 store_filename = np.array([join(store_folder, f + '_nlm_flatten_lbp_' + str(radius) + '_hist.npz')
                           for f in data_filename])
-data_filename = np.array([join(data_folder, f + '_nlm_flatten_lbptopPatch_' + str(radius) + '_.mat')
+data_filename = np.array([join(data_folder, f + '_nlm_lbptopPatch_' + str(radius) + '_.mat')
                           for f in data_filename])
 
 Parallel(n_jobs=32)(delayed(cvt2npz)(df, sf)
