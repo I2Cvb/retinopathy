@@ -1,4 +1,4 @@
-#title           :classification_lbp_now.py
+#title           :classification_lbp_local_random.py
 #description     :This will create a header for a python script.
 #author          :Guillaume Lemaitre
 #date            :2015/06/07
@@ -32,7 +32,7 @@ from protoclass.classification.classification import Classify
 
 def ParallelClassification(idx_test, (pat_test_norm, pat_test_dme),
                            filename_normal, filename_dme,
-                           data_folder, nw, config_class):
+                           data_folder, nw, cb_list, config_class):
 
 
     # Take the testing out and keep the rest for training
@@ -40,7 +40,7 @@ def ParallelClassification(idx_test, (pat_test_norm, pat_test_dme),
     pat_train_dme = np.delete(filename_dme, idx_test)
 
     results_by_codebook = []
-    for idx_words, current_cbook in enumerate(codebook_list[idx_test]):
+    for idx_words, current_cbook in enumerate(cb_list[idx_test]):
 
         print 'Analysis of the the codebook with {} words'.format(nw[idx_words])
 
@@ -139,7 +139,7 @@ else:
 
         results_cv = Parallel(n_jobs=1)(delayed(ParallelClassification)(idx_test, (pat_test_norm, pat_test_dme),
                                                                         filename_normal, filename_dme, data_folder,
-                                                                        nb_words, c)
+                                                                        nb_words[:len()], codebook_list, c)
                                         for idx_test, (pat_test_norm, pat_test_dme) 
                                         in enumerate(zip(filename_normal, filename_dme)))
 
