@@ -81,7 +81,7 @@ config = [{'classifier_str' : 'random-forest', 'n_estimators' : 100, 'gs_n_jobs'
           {'classifier_str' : 'gradient-boosting', 'n_estimators' : 100, 'gs_n_jobs' : 8}]
 
 # Define the number of words 
-nb_words = [10, 20, 30, 40, 50, 60, 70, 80, 90
+nb_words = [10, 20, 30, 40, 50, 60, 70, 80, 90,
             100, 200, 300, 400, 500,
             1000, 2000, 3000, 4000, 5000]
 
