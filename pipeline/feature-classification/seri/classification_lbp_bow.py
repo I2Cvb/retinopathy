@@ -148,7 +148,7 @@ else:
 
     # We have to store the final results
     output_folder = sys.argv[3]
-    path_to_save = join(output_folder, 'r_' + str(radius) + '_' + codebook_random)
+    path_to_save = join(output_folder, 'r_' + str(radius) + '_' + codebook_type)
     if not os.path.exists(path_to_save):
         os.makedirs(path_to_save)
 
