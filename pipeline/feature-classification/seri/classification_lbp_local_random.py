@@ -123,7 +123,8 @@ else:
     # Build the data folder from the radius given
     data_folder = join(input_folder, 'r_' + str(radius) + '_hist_npz')
     # Give the location of the random codebook previously generated
-    codebook_filename = join(data_folder, 'codebook_random/codebook.pkl')
+    codebook_type = 'codebook_random'
+    codebook_filename = join(data_folder, join(codebook_type, 'codebook.pkl'))
 
     # Open the data
     ### Features
@@ -147,7 +148,7 @@ else:
 
     # We have to store the final results
     output_folder = sys.argv[3]
-    path_to_save = join(output_folder, 'r_' + str(radius) + '_bow_random')
+    path_to_save = join(output_folder, 'r_' + str(radius) + '_' + codebook_random)
     if not os.path.exists(path_to_save):
         os.makedirs(path_to_save)
 

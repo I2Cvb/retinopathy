@@ -20,8 +20,6 @@ List = dir (dataPath);
 List = List(3:end); 
 
 
-List = dir (dataPath); 
-List = List(3:end);
 overlap = [1,2,3];
 w = [9,11,13];
 
@@ -65,10 +63,10 @@ for mId =  3 : 3
         % The first and last slice of the volume are
         % repeated twice
         CurrVolDataPad(:,:,1:overlap(mId)) = ...
-            repmat(CurrVolDataPad(:,:,1+overlap(mId)),[overlap(mId), ...
+            repmat(CurrVolDataPad(:,:,1+overlap(mId)),[1,1, ...
                    overlap(mId)] );
-        CurrVolDataPad(:,:,end-overlap(mId):end) = ...
-            repmat(CurrVolDataPad(:,:,end-overlap(mId)), [overlap(mId), ...
+        CurrVolDataPad(:,:,end-overlap(mId)+1:end) = ...
+            repmat(CurrVolDataPad(:,:,end-overlap(mId)), [1,1, ...
                    overlap(mId)]);
 
          % the window size for each radius of
@@ -96,8 +94,9 @@ for mId =  3 : 3
          ystrIdx(2:end) = ystrIdx(2:end)-(2*overlap(mId));
          zstrIdx(2:end) = zstrIdx(2:end)-(2*overlap(mId)); 
          disp(length(X))
-         clear H;
-         clear Histogram; 
+         
+         clear Histogram;
+         clear histogram; 
          for pId = 1 : length(X)
              
 		    PVolume = CurrVolDataPad(xstrIdx(X(pId)):xendIdx(X(pId)),zstrIdx(Z(pId)):zendIdx(Z(pId)) , ystrIdx(Y(pId)):yendIdx(Y(pId))); 
