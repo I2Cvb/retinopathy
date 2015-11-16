@@ -140,7 +140,7 @@ else:
 
         results_cv = Parallel(n_jobs=1)(delayed(ParallelClassification)(idx_test, (pat_test_norm, pat_test_dme),
                                                                         filename_normal, filename_dme, data_folder,
-                                                                        nb_words[:len(codebook_list)], codebook_list, c)
+                                                                        nb_words[:len(codebook_list[0])], codebook_list, c)
                                         for idx_test, (pat_test_norm, pat_test_dme) 
                                         in enumerate(zip(filename_normal, filename_dme)))
 
