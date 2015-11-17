@@ -19,21 +19,17 @@ mapsnameL = [3 4 4];
 List = dir (dataPath); 
 List = List(3:end); 
 
-
-List = dir (dataPath); 
-List = List(3:end);
 overlap = [1 2 3];
 w = [9 11 13];
 
 
-for mId =  1 : 3
+for mId =  2 : 3
     load(fullfile(mapPath, Maps(mId,1:MapsLength(mId)))); 
     resultPath = fullfile(resPath, ['r_' num2str(mId) '_hist_mat']); 
 
     for fileId = 1 : length(List)
         VolData =  load(fullfile(dataPath, List(fileId).name));
         VolData = VolData.vol_denoised; 
-        CurrVolData = zeros(size(VolData,1), size(VolData,3), size(VolData,2)); 
         CurrVolData = zeros(size(VolData,1), size(VolData,3), size(VolData,2));
         CurrVolDataPad = zeros(size(VolData,1)+2*overlap(mId), size(VolData,3)+2*overlap(mId), size(VolData,2)+2*overlap(mId));
 
@@ -42,12 +38,23 @@ for mId =  1 : 3
           % Padding the volume to be able to
           % get the right number of
           % pixels per histogram
-          CurrVolDataPad(:,:,i+1) =  padarray(CurrVolData(:,:,i), [overlap(mId) overlap(mId)], 'replicate');
+
+            %%% Apparently some matlabs have problem with padarray
+          % CurrVolDataPad(:,:,i+overlap(mId)) = padarray(CurrVolData(:,:,i), [overlap(mId) overlap(mId)], 'replicate');
+
+          CurrVolDataPad(overlap(mId)+1:end-overlap(mId), overlap(mId)+1:end-overlap(mId), i+overlap(mId)) = CurrVolData(:,:,i);
+          CurrVolDataPad(1:overlap(mId), overlap(mId)+1:end-overlap(mId), i+overlap(mId)) = repmat(CurrVolData(1,:,i),[overlap(mId), 1]);
+          CurrVolDataPad(end-overlap(mId)+1 : end , overlap(mId)+1: end-overlap(mId), i+overlap(mId)) = repmat(CurrVolData(end, :,i),[overlap(mId),1]);
+          CurrVolDataPad (1:overlap(mId), 1:overlap(mId), i+overlap(mId)) = repmat(CurrVolData(1,1,i), [overlap(mId) overlap(mId)]);
+          CurrVolDataPad (1:overlap(mId), end-overlap(mId)+1:end, i+overlap(mId)) = repmat(CurrVolData(1, end,i),[overlap(mId) overlap(mId)]);
+          CurrVolDataPad (end-overlap(mId)+1:end , 1:overlap(mId), i+overlap(mId)) = repmat(CurrVolData(end,1,i), [overlap(mId), overlap(mId)]);
+          CurrVolDataPad (end-overlap(mId)+1:end , end-overlap(mId)+1:end, i+overlap(mId)) = repmat(CurrVolData(end,end,i), [overlap(mId), overlap(mId)]); 
+              
         end
         % The first and last slice of the volume are
         % repeated twice
-        CurrVolDataPad(:,:,1) = CurrVolDataPad(:,:,2);
-        CurrVolDataPad(:,:,end) =  CurrVolDataPad(:,:,end-1);
+        CurrVolDataPad(:,:,1:overlap(mId)) = repmat(CurrVolDataPad(:,:,2), [1,1,overlap(mId)]);
+        CurrVolDataPad(:,:,end-overlap(mId)+1:end) = repmat(CurrVolDataPad(:,:,end-overlap(mId)),[1,1,overlap(mId)]);
 
          % the window size for each radius of
          % LBP
@@ -73,24 +80,27 @@ for mId =  1 : 3
          xstrIdx(2:end) = xstrIdx(2:end)-(2*overlap(mId));
          ystrIdx(2:end) = ystrIdx(2:end)-(2*overlap(mId));
          zstrIdx(2:end) = zstrIdx(2:end)-(2*overlap(mId)); 
+
+	 clear Histogram; 
+	 clear histogram; 
+
          for pId = 1 : length(X)
-             
 		    PVolume = CurrVolDataPad(xstrIdx(X(pId)):xendIdx(X(pId)),zstrIdx(Z(pId)):zendIdx(Z(pId)) , ystrIdx(Y(pId)):yendIdx(Y(pId))); 
                     bBilinearInterpolation = 0;
                     TInterval = 1;
                     histemp = LBPTOP(PVolume, FxRadius, FyRadius, TInterval, NeighborPoints, TimeLength, BorderLength, bBilinearInterpolation, Bincount, Code);
                     His = [];
                     His = [His, histemp(1,:), histemp(2,:), histemp(3,:)];
-                    H(fileId).Histogram{pId} = His; 
+                    histogram{pId} = His; 
         end
 
         
-     end
+     %end
         %delete(poolobj)
-     for fileId = 1 : length(List)
+     %for fileId = 1 : length(List)
         Volname = List(fileId).name;
         Volname = Volname(1:end-4);  
-        Histogram  = H(fileId).Histogram; 
+        Histogram  = histogram; 
         save(fullfile(resultPath, [Volname '_lbptopPatch_' num2str(mId) '_.mat']) , 'Histogram');
      end 
         

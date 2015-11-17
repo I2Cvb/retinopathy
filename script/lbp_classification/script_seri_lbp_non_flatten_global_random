@@ -5,7 +5,7 @@ name_dataset='seri'
 # Input path
 input_path='/work/le2i/gu5306le/retinopathy/OCT/SERI/feature_data/non_flatten/lbp_riu/lbp_hist/lbp_global'
 # Output path
-output_path='/work/le2i/gu5306le/retinopathy/OCT/SERI/results/non_flatten/lbp_riu/lbp_global'
+output_path='/work/le2i/gu5306le/retinopathy/OCT/SERI/results/non_flatten/lbp_riu/lbp_hist/lbp_global'
 # Type of codebook
 codebook_type='codebook_random'
 

@@ -32,40 +32,33 @@ from protoclass.classification.classification import Classify
 
 def ParallelClassification(idx_test, (pat_test_norm, pat_test_dme),
                            filename_normal, filename_dme,
-                           nw, cb_list, config_class):
+                           config_class):
 
 
     # Take the testing out and keep the rest for training
     pat_train_norm = np.delete(filename_normal, idx_test)
     pat_train_dme = np.delete(filename_dme, idx_test)
 
-    results_by_codebook = []
-    for idx_words, current_cbook in enumerate(cb_list[idx_test]):
+    # Collect the current training data
+    training_normal = [get_lbp_data(f) for f in pat_train_norm]
+    training_dme = [get_lbp_data(f) for f in pat_train_dme]
 
-        print 'Analysis of the the codebook with {} words'.format(nw[idx_words])
+    # Compose the training ( data & labels )
+    training_data = np.array(training_normal+training_dme)
+    training_label = np.array([0]*len(training_normal) + [1]*len(training_dme), dtype=int)
 
-        # Collect the current training data
-        training_normal = [current_cbook.get_BoF_descriptor(get_lbp_data(f))[0] for f in pat_train_norm]
-        training_dme = [current_cbook.get_BoF_descriptor(get_lbp_data(f))[0] for f in pat_train_dme]
+    # Compose the testing
+    testing_data = np.array([get_lbp_data(filename_normal[idx_test]),
+                             get_lbp_data(filename_dme[idx_test])])
 
-        # Compose the training ( data & labels )
-        training_data = np.array(training_normal+training_dme)
-        training_label = np.array([0]*len(training_normal) + [1]*len(training_dme), dtype=int)
+    # Run the classification for this specific data
+    pred_label, roc = Classify(training_data,
+                               training_label,
+                               testing_data,
+                               np.array([0, 1], dtype=int),
+                               **config_class)
 
-        # Compose the testing
-        testing_data = np.array([current_cbook.get_BoF_descriptor(get_lbp_data(filename_normal[idx_test]))[0],
-                                 current_cbook.get_BoF_descriptor(get_lbp_data(filename_dme[idx_test]))[0]])
-
-        # Run the classification for this specific data
-        pred_label, roc = Classify(training_data,
-                                   training_label,
-                                   testing_data,
-                                   np.array([0, 1], dtype=int),
-                                   **config_class)
-
-        results_by_codebook.append((pred_label, roc))
-
-    return results_by_codebook
+    return (pred_label, roc)
 
 ################################################################################################
 
@@ -80,18 +73,13 @@ config = [{'classifier_str' : 'random-forest', 'n_estimators' : 100, 'gs_n_jobs'
           {'classifier_str' : 'kernel-svm', 'gs_n_jobs' : 8},
           {'classifier_str' : 'gradient-boosting', 'n_estimators' : 100, 'gs_n_jobs' : 8}]
 
-# Define the number of words 
-nb_words = [10, 20, 30, 40, 50, 60, 70, 80, 90,
-            100, 200, 300, 400, 500,
-            1000, 2000, 3000, 4000, 5000]
-
 ################################################################################################
 
 ################################################################################################
 ### Build the GT
 
 # Read the csv file with the ground truth
-gt_csv_filename = '/work/le2i/gu5306le/retinopathy/OCT/SERI/data.csv'
+gt_csv_filename = '/work/le2i/gu5306le/retinopathy/OCT/Duke/data.csv'
 gt_csv = pd.read_csv(gt_csv_filename)
 
 gt = gt_csv.values
@@ -122,17 +110,11 @@ else:
     input_folder = sys.argv[2]
     # Build the data folder from the radius given
     data_folder = join(input_folder, 'r_' + str(radius) + '_hist_npz')
-    # Give the location of the random codebook previously generated
-    codebook_type = sys.argv[4]
-    codebook_filename = join(data_folder, join(codebook_type, 'codebook.pkl'))
-
+    
     # Open the data
     ### Features
-    get_lbp_data = lambda f: np.load(join(data_folder, f))['vol_lbp_hist']
-    from sklearn.externals import joblib
-    ### Codebook
-    codebook_list = joblib.load(codebook_filename)
-
+    get_lbp_data = lambda f: np.load(join(data_folder, f))['vol_lbp_top_hist']
+    
     # Make the classification for each configuration
     result_config = []    
     for c in config:
@@ -140,8 +122,7 @@ else:
 
         results_cv = Parallel(n_jobs=1)(delayed(ParallelClassification)(idx_test, (pat_test_norm, pat_test_dme),
                                                                         filename_normal, filename_dme,
-                                                                        nb_words[:len(codebook_list[0])],
-                                                                        codebook_list, c)
+                                                                        c)
                                         for idx_test, (pat_test_norm, pat_test_dme) 
                                         in enumerate(zip(filename_normal, filename_dme)))
 
@@ -149,7 +130,7 @@ else:
 
     # We have to store the final results
     output_folder = sys.argv[3]
-    path_to_save = join(output_folder, 'r_' + str(radius) + '_' + codebook_type)
+    path_to_save = join(output_folder, 'r_' + str(radius))
     if not os.path.exists(path_to_save):
         os.makedirs(path_to_save)
 

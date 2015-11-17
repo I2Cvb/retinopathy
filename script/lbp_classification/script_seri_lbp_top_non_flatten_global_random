@@ -3,9 +3,9 @@
 # Name of the dataset
 name_dataset='seri'
 # Input path
-input_path='/work/le2i/gu5306le/retinopathy/OCT/SERI/feature_data/flatten_aligned/lbp_riu/lbp_hist/lbp_local'
+input_path='/work/le2i/gu5306le/retinopathy/OCT/SERI/feature_data/non_flatten/lbp_riu/lbp_hist_top/lbp_global'
 # Output path
-output_path='/work/le2i/gu5306le/retinopathy/OCT/SERI/results/flatten_aligned/lbp_riu/lbp_hist/lbp_local'
+output_path='/work/le2i/gu5306le/retinopathy/OCT/SERI/results/non_flatten/lbp_riu/lbp_hist_top/lbp_global'
 # Type of codebook
 codebook_type='codebook_random'
 
@@ -16,14 +16,14 @@ script_dir=$(pwd)
 for radius in `seq 1 3`;
 do
     # Create an automatic script
-    script_filename_core='/script_lbp_flatten_aligned_local_random_r_'
+    script_filename_core='/script_lbp_top_non_flatten_global_random_r_'
     script_filename="$script_dir$script_filename_core$radius"
     ### Create the file
     touch $script_filename
     ### Truncate the file if it is existing
     : > $script_filename
     
-    printf "ipython ../../pipeline/feature-classification/${name_dataset}/classification_lbp_bow.py ${radius} \"${input_path}\" \"${output_path}\" \"${codebook_type}\" " >> $script_filename
+    printf "ipython ../../pipeline/feature-classification/${name_dataset}/classification_lbp_top.py ${radius} \"${input_path}\" \"${output_path}\" \"${codebook_type}\" " >> $script_filename
     ### Make it executable
     chmod u+x $script_filename
     # Submit the job to the queue

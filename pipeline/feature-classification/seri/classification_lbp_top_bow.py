@@ -32,7 +32,7 @@ from protoclass.classification.classification import Classify
 
 def ParallelClassification(idx_test, (pat_test_norm, pat_test_dme),
                            filename_normal, filename_dme,
-                           data_folder, nw, cb_list, config_class):
+                           nw, cb_list, config_class):
 
 
     # Take the testing out and keep the rest for training
@@ -139,8 +139,9 @@ else:
         print c
 
         results_cv = Parallel(n_jobs=1)(delayed(ParallelClassification)(idx_test, (pat_test_norm, pat_test_dme),
-                                                                        filename_normal, filename_dme, data_folder,
-                                                                        nb_words[:len(codebook_list[0])], codebook_list, c)
+                                                                        filename_normal, filename_dme,
+                                                                        nb_words[:len(codebook_list[0])],
+                                                                        codebook_list, c)
                                         for idx_test, (pat_test_norm, pat_test_dme) 
                                         in enumerate(zip(filename_normal, filename_dme)))
 
