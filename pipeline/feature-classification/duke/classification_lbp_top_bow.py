@@ -91,7 +91,7 @@ nb_words = [10, 20, 30, 40, 50, 60, 70, 80, 90,
 ### Build the GT
 
 # Read the csv file with the ground truth
-gt_csv_filename = '/work/le2i/gu5306le/retinopathy/OCT/SERI/data.csv'
+gt_csv_filename = '/work/le2i/gu5306le/retinopathy/OCT/Duke/data.csv'
 gt_csv = pd.read_csv(gt_csv_filename)
 
 gt = gt_csv.values
@@ -128,7 +128,7 @@ else:
 
     # Open the data
     ### Features
-    get_lbp_data = lambda f: np.load(join(data_folder, f))['vol_lbp_hist']
+    get_lbp_data = lambda f: np.load(join(data_folder, f))['vol_lbp_hist_top']
     from sklearn.externals import joblib
     ### Codebook
     codebook_list = joblib.load(codebook_filename)
@@ -148,7 +148,7 @@ else:
 
     # We have to store the final results
     output_folder = sys.argv[3]
-    path_to_save = join(output_folder, 'r_' + str(radius) + '_' + codebook_type)
+    path_to_save = join(output_folder, 'r_' + str(radius) + '_' + codebook_random)
     if not os.path.exists(path_to_save):
         os.makedirs(path_to_save)
 

@@ -28,7 +28,7 @@ for mId =  3 : 3
     load(fullfile(mapPath, Maps(mId,1:MapsLength(mId)))); 
     resultPath = fullfile(resPath, ['r_' num2str(mId) '_hist_mat']); 
 
-    for fileId = 1: 1 %length(List)
+    for fileId = 1: length(List)
         VolData =  load(fullfile(dataPath, List(fileId).name));
         VolData = VolData.vol_flatten; 
         CurrVolData = zeros(size(VolData,1), size(VolData,3), size(VolData,2));
@@ -41,18 +41,16 @@ for mId =  3 : 3
           % pixels per histogram
         
           %%% Apparently some matlabs have problem with padarray
-          CurrVolDataPad(:,:,i+overlap(mId)) =...
-          padarray(CurrVolData(:,:,i), [overlap(mId) overlap(mId)], 'replicate');
-          %CurrVolDataPad(overlap(mId)+1:end-overlap(mId),  overlap(mId)+1:end-overlap(mId), i+overlap(mId)) = ...
-          %                                                 CurrVolData(:,:,i);
-          %CurrVolDataPad(1:overlap(mId), overlap(mId)+1:end-overlap(mId), i+overlap(mId)) = repmat(CurrVolData(1,:,i), [overlap(mId), 1]);
-          %CurrVolDataPad(end-overlap(mId)+1 : end , overlap(mId)+1: end-overlap(mId), i+overlap(mId)) = ...
-          %                                                 repmat(CurrVolData(end, :,i),[overlap(mId),1]);
-          %CurrVolDataPad (1:overlap(mId), 1:overlap(mId), i+overlap(mId)) = ...
-          %                                                 repmat(CurrVolData(1,1,i), [overlap(mId) overlap(mId)]);
-          %CurrVolDataPad (1:overlap(mId), end-overlap(mId)+1:end,i+overlap(mId)) = repmat(CurrVolData(1, end,i),[overlap(mId) overlap(mId)]);
-          %CurrVolDataPad (end-overlap(mId)+1:end , 1:overlap(mId), i+overlap(mId)) = repmat(CurrVolData(end,1,i), [overlap(mId), overlap(mId)]);
-          %CurrVolDataPad (end-overlap(mId)+1:end , end-overlap(mId)+1:end, i+overlap(mId)) = repmat(CurrVolData(end,end,i), [overlap(mId), overlap(mId)]);
+          %CurrVolDataPad(:,:,i+overlap(mId)) =...
+          %padarray(CurrVolData(:,:,i), [overlap(mId) overlap(mId)], 'replicate');
+          
+          CurrVolDataPad(overlap(mId)+1:end-overlap(mId),  overlap(mId)+1:end-overlap(mId), i+overlap(mId)) =  CurrVolData(:,:,i);
+          CurrVolDataPad(1:overlap(mId), overlap(mId)+1:end-overlap(mId), i+overlap(mId)) = repmat(CurrVolData(1,:,i), [overlap(mId), 1]);
+          CurrVolDataPad(end-overlap(mId)+1 : end , overlap(mId)+1: end-overlap(mId), i+overlap(mId)) =  repmat(CurrVolData(end, :,i),[overlap(mId),1]);
+          CurrVolDataPad (1:overlap(mId), 1:overlap(mId), i+overlap(mId)) = repmat(CurrVolData(1,1,i), [overlap(mId) overlap(mId)]);
+          CurrVolDataPad (1:overlap(mId), end-overlap(mId)+1:end,i+overlap(mId)) = repmat(CurrVolData(1, end,i),[overlap(mId) overlap(mId)]);
+          CurrVolDataPad (end-overlap(mId)+1:end , 1:overlap(mId), i+overlap(mId)) = repmat(CurrVolData(end,1,i), [overlap(mId), overlap(mId)]);
+          CurrVolDataPad (end-overlap(mId)+1:end , end-overlap(mId)+1:end, i+overlap(mId)) = repmat(CurrVolData(end,end,i), [overlap(mId), overlap(mId)]);
 
         end
         %for i = 1 : size(VolData,2)
@@ -62,7 +60,8 @@ for mId =  3 : 3
         %end
         % The first and last slice of the volume are
         % repeated twice
-        CurrVolDataPad(:,:,1:overlap(mId)) = ...
+        
+	CurrVolDataPad(:,:,1:overlap(mId)) = ...
             repmat(CurrVolDataPad(:,:,1+overlap(mId)),[1,1, ...
                    overlap(mId)] );
         CurrVolDataPad(:,:,end-overlap(mId)+1:end) = ...

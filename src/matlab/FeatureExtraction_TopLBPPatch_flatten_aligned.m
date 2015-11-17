@@ -26,11 +26,11 @@ overlap = [1 2 3];
 w = [9 11 13];
 
 
-for mId =  3 : 3
+for mId =  2 : 2
     load(fullfile(mapPath, Maps(mId,1:MapsLength(mId)))); 
     resultPath = fullfile(resPath, ['r_' num2str(mId) '_hist_mat']); 
 
-    for fileId = 3 : length(List)
+    for fileId = 1 : length(List)
         VolData =  load(fullfile(dataPath, List(fileId).name));
         VolData = VolData.vol_flatten; 
         CurrVolData = zeros(size(VolData,1), size(VolData,3), size(VolData,2));

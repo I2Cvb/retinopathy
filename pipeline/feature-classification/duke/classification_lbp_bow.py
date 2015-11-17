@@ -123,7 +123,7 @@ else:
     # Build the data folder from the radius given
     data_folder = join(input_folder, 'r_' + str(radius) + '_hist_npz')
     # Give the location of the random codebook previously generated
-    codebook_type = 'codebook_random'
+    codebook_type = sys.argv[4]
     codebook_filename = join(data_folder, join(codebook_type, 'codebook.pkl'))
 
     # Open the data
