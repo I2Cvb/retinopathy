@@ -23,7 +23,7 @@ do
     ### Truncate the file if it is existing
     : > $script_filename
     
-    printf "ipython ../../pipeline/feature-classification/${name_dataset}/classification_lbp_top.py ${radius} \"${input_path}\" \"${output_path}\" \"${codebook_type}\" " >> $script_filename
+    printf "ipython ../../pipeline/feature-classification/${name_dataset}/classification_lbp_top_bow.py ${radius} \"${input_path}\" \"${output_path}\" \"${codebook_type}\" " >> $script_filename
     ### Make it executable
     chmod u+x $script_filename
     # Submit the job to the queue

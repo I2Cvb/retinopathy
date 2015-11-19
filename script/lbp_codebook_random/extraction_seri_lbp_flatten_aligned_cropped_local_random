@@ -3,7 +3,7 @@
 # Name of the dataset
 name_dataset='seri'
 # Input path
-input_path='/work/le2i/gu5306le/retinopathy/OCT/SERI/feature_data/flatten_aligned_cropped/lbp_riu/lbp_hist_top/lbp_local'
+input_path='/work/le2i/gu5306le/retinopathy/OCT/SERI/feature_data/flatten_aligned_cropped/lbp_riu/lbp_hist/lbp_local'
 # Output path
 # output_path='/work/le2i/gu5306le/retinopathy/OCT/SERI/results/non_flatten/lbp_riu/lbp_hist/lbp_local'
 # Type of codebook
@@ -15,14 +15,14 @@ script_dir=$(pwd)
 for radius in `seq 1 3`;
 do
     # Create an automatic script
-    script_filename_core='/script_lbp_top_flatten_aligned_cropped_local_random_r_'
+    script_filename_core='/script_lbp_flatten_aligned_cropped_local_random_r_'
     script_filename="$script_dir$script_filename_core$radius"
     ### Create the file
     touch $script_filename
     ### Truncate the file if it is existing
     : > $script_filename
     
-    printf "ipython ../../pipeline/feature-extraction/${name_dataset}/extraction_lbp_top_codebook_local_random.py ${radius} \"${input_path}\" " >> $script_filename
+    printf "ipython ../../pipeline/feature-extraction/${name_dataset}/extraction_lbp_codebook_local_random.py ${radius} \"${input_path}\" " >> $script_filename
     ### Make it executable
     chmod u+x $script_filename
     # Submit the job to the queue

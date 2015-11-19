@@ -113,7 +113,7 @@ else:
     codebook_path = join(data_folder, codebook_type)
     codebook_filename = join(codebook_path, 'codebook.pkl')
     if not os.path.exists(codebook_path):
-        os.makedirs(path_to_save)
+        os.makedirs(codebook_path)
 
     from sklearn.externals import joblib
     joblib.dump(codebook_list, codebook_filename)

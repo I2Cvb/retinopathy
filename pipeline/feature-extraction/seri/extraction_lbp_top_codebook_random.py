@@ -99,7 +99,7 @@ else:
 
     # Open the data
     ### Features
-    get_lbp_data = lambda f: np.load(join(data_folder, f))['vol_lbp_hist_top']
+    get_lbp_data = lambda f: np.load(join(data_folder, f))['vol_lbp_top_hist']
 
     # Compute a codebook for each fold
     codebook_list = []
@@ -113,7 +113,7 @@ else:
     codebook_path = join(data_folder, codebook_type)
     codebook_filename = join(codebook_path, 'codebook.pkl')
     if not os.path.exists(codebook_path):
-        os.makedirs(path_to_save)
+        os.makedirs(codebook_path)
 
     from sklearn.externals import joblib
     joblib.dump(codebook_list, codebook_filename)
