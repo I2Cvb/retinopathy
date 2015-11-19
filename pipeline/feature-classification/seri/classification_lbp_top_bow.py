@@ -128,7 +128,7 @@ else:
 
     # Open the data
     ### Features
-    get_lbp_data = lambda f: np.load(join(data_folder, f))['vol_lbp_hist']
+    get_lbp_data = lambda f: np.load(join(data_folder, f))['vol_lbp_top_hist']
     from sklearn.externals import joblib
     ### Codebook
     codebook_list = joblib.load(codebook_filename)
