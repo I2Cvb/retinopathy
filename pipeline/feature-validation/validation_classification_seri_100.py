@@ -16,7 +16,7 @@ def report_plot(path, nw, config):
 
     for radius in range(1, 4):
 
-        path_result = path + '/r_' + str(radius) + '_bow_100/bow.pkl'
+        path_result = path + '/r_' + str(radius) + '/bow.pkl'
 
         print '----- # RADIUS {} -----'.format(radius)
 
@@ -100,7 +100,7 @@ config = [{'classifier_str' : 'random-forest', 'n_estimators' : 100, 'gs_n_jobs'
 nw = [100]
 
 # Define the path for flatten image
-path_result = '/data/retinopathy/OCT/SERI/results/non_flatten/lbp_riu/lbp_global'
+path_result = '/data/retinopathy/OCT/SERI/results/flatten_aligned_cropped/lbp_riu/lbp_hist_top/lbp_global'
 
 report_plot(path_result, nw, config)
 

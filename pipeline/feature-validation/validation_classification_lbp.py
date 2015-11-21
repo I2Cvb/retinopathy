@@ -1,952 +1,128 @@
 import numpy as np
+import seaborn as sns
+sns.set(color_codes=True)
+import matplotlib.pyplot as plt
 from sklearn.externals import joblib
 
-# print ''
-# print 'LBP histogram'
-# print ''
+def report_plot(path, nw, config):
 
-# for radius in range(1, 5):
-#     path_result = '/work/le2i/gu5306le/OCT/lbp_r_' + str(radius) + '_hist_results/hist.pkl'
+    # Three subplots sharing both x/y axes
+    f, (ax1, ax2, ax3) = plt.subplots(3, sharex=True, sharey=True)
 
-#     # Load the results from the given path
-#     result = joblib.load(path_result)
-#     result_array = np.array(result)
+    for radius in range(1, 4):
 
-#     normal = 0.
-#     dme = 0.
-#     # Extract the results on the testing set
-#     for cv in result_array[:, 0]:
-        
-#         if cv[0] == 0:
-#             normal += 1.
-#         if cv[1] == 1:
-#             dme += 1.
+        path_result = path + '/r_' + str(radius) + '_wt_codebook/bow.pkl'
 
-#     print '----- RADIUS  {} -----'.format(radius)
-#     print 'The statistic are the following:'
-#     print 'Sensitivity: {} - Specificity: {}'.format(dme / float(result_array.shape[0]),
-#                                                      normal / float(result_array.shape[0]))
-#     print 'DME: {} / {} - Normal: {}/ {}'.format(dme,
-#                                                  float(result_array.shape[0]),
-#                                                  normal,
-#                                                  float(result_array.shape[0]))
-#     print ''
+        print '----- # RADIUS {} -----'.format(radius)
 
-# print ''
-# print 'LBP histogram + PCA'
-# print ''
-    
-# for radius in range(1, 5):
-#     path_result = '/work/le2i/gu5306le/OCT/lbp_r_' + str(radius) + '_hist_pca_results/hist.pkl'
+        # Load the results from the given path
+        result_all_config = joblib.load(path_result)
 
-#     # Load the results from the given path
-#     result = joblib.load(path_result)
-#     result_array = np.array(result)
+        for idx_config, result in enumerate(result_all_config):
 
-#     normal = 0.
-#     dme = 0.
-#     # Extract the results on the testing set
-#     for cv in result_array[:, 0]:
-        
-#         if cv[0] == 0:
-#             normal += 1.
-#         if cv[1] == 1:
-#             dme += 1.
+            print '----- # CONFIG CLASSIFIER {} -----'.format(config[idx_config])
 
-#     print '----- RADIUS  {} -----'.format(radius)
-#     print 'The statistic are the following:'
-#     print 'Sensitivity: {} - Specificity: {}'.format(dme / float(result_array.shape[0]),
-#                                                      normal / float(result_array.shape[0]))
-#     print 'DME: {} / {} - Normal: {}/ {}'.format(dme,
-#                                                  float(result_array.shape[0]),
-#                                                  normal,
-#                                                  float(result_array.shape[0]))
-#     print ''
-
-# print ''
-# print 'LBP combination'
-# print ''
-
-# path_result = '/work/le2i/gu5306le/OCT/lbp_hist_comb_results/hist.pkl'
-
-# # Load the results from the given path
-# result = joblib.load(path_result)
-# result_array = np.array(result)
-
-# normal = 0.
-# dme = 0.
-# # Extract the results on the testing set
-# for cv in result_array[:, 0]:
-        
-#     if cv[0] == 0:
-#         normal += 1.
-#     if cv[1] == 1:
-#         dme += 1.
-
-# print 'The statistic are the following:'
-# print 'Sensitivity: {} - Specificity: {}'.format(dme / float(result_array.shape[0]),
-#                                                  normal / float(result_array.shape[0]))
-# print 'DME: {} / {} - Normal: {}/ {}'.format(dme,
-#                                              float(result_array.shape[0]),
-#                                              normal,
-#                                              float(result_array.shape[0]))
-# print ''
-
-# print ''
-# print 'LBP combination + PCA'
-# print ''
-
-# path_result = '/work/le2i/gu5306le/OCT/lbp_hist_comb_pca_results/hist.pkl'
-
-# # Load the results from the given path
-# result = joblib.load(path_result)
-# result_array = np.array(result)
-
-# normal = 0.
-# dme = 0.
-# # Extract the results on the testing set
-# for cv in result_array[:, 0]:
-        
-#     if cv[0] == 0:
-#         normal += 1.
-#     if cv[1] == 1:
-#         dme += 1.
-
-# print 'The statistic are the following:'
-# print 'Sensitivity: {} - Specificity: {}'.format(dme / float(result_array.shape[0]),
-#                                                  normal / float(result_array.shape[0]))
-# print 'DME: {} / {} - Normal: {}/ {}'.format(dme,
-#                                              float(result_array.shape[0]),
-#                                              normal,
-#                                              float(result_array.shape[0]))
-# print ''
-
-# print ''
-# print 'LBP histogram + BOW'
-# print ''
-    
-# nw = [2, 4, 8, 16, 32, 64, 100]
-
-# for radius in range(1, 5):
-
-#     path_result = '/work/le2i/gu5306le/OCT/lbp_r_' + str(radius) + '_hist_BoW_results/bow.pkl'
-
-#     # Load the results from the given path
-#     result = joblib.load(path_result)
-#     result_array = np.array(result)
-
-#     # Swap the two first axis
-#     result_array = np.rollaxis(result_array, 0, 2)
-
-#     # Go throught the different words
-#     for idx_w, w in enumerate(result_array):
-    
-#         normal = 0.
-#         dme = 0.
-#         # Extract the results on the testing set
-#         for cv in w[:, 0]:
+            result_array = np.array(result)
             
-#             if cv[0] == 0:
-#                 normal += 1.
-#             if cv[1] == 1:
-#                 dme += 1.
-
-#         print '----- RADIUS  {} -----'.format(radius)
-#         print '----- # WORDS {} -----'.format(nw[idx_w])
-#         print 'The statistic are the following:'
-#         print 'Sensitivity: {} - Specificity: {}'.format(dme / float(result_array.shape[1]),
-#                                                          normal / float(result_array.shape[1]))
-#         print 'DME: {} / {} - Normal: {}/ {}'.format(dme,
-#                                                      float(result_array.shape[1]),
-#                                                      normal,
-#                                                      float(result_array.shape[1]))
-#         print ''
-
-# print ''
-# print 'LBP histogram + BOW + combine'
-# print ''
-        
-# nw = [2, 4, 8, 16, 32]
-
-# path_result = '/work/le2i/gu5306le/OCT/lbp_hist_BoW_comb_results/bow.pkl'
-
-# # Load the results from the given path
-# result = joblib.load(path_result)
-# result_array = np.array(result)
-
-# # Swap the two first axis
-# result_array = np.rollaxis(result_array, 0, 2)
-
-# # Go throught the different words
-# for idx_w, w in enumerate(result_array):
-    
-#     normal = 0.
-#     dme = 0.
-#     # Extract the results on the testing set
-#     for cv in w[:, 0]:
-            
-#         if cv[0] == 0:
-#             normal += 1.
-#         if cv[1] == 1:
-#             dme += 1.
-
-#     print '----- # WORDS {} -----'.format(nw[idx_w])
-#     print 'The statistic are the following:'
-#     print 'Sensitivity: {} - Specificity: {}'.format(dme / float(result_array.shape[1]),
-#                                                      normal / float(result_array.shape[1]))
-#     print 'DME: {} / {} - Normal: {}/ {}'.format(dme,
-#                                                  float(result_array.shape[1]),
-#                                                  normal,
-#                                                  float(result_array.shape[1]))
-#     print ''
-
-        
-# print ''
-# print 'LBP histogram + sliding window + BOW'
-# print ''
-
-    
-# nw = [2, 4, 8, 16, 32]
-
-# for radius in range(1, 5):
-
-#     path_result = '/work/le2i/gu5306le/OCT/lbp_r_' + str(radius) + '_hist_BoW_now_results/bow.pkl'
-
-#     # Load the results from the given path
-#     result = joblib.load(path_result)
-#     result_array = np.array(result)
-
-#     # Swap the two first axis
-#     result_array = np.rollaxis(result_array, 0, 2)
-
-#     # Go throught the different words
-#     for idx_w, w in enumerate(result_array):
-    
-#         normal = 0.
-#         dme = 0.
-#         # Extract the results on the testing set
-#         for cv in w[:, 0]:
-            
-#             if cv[0] == 0:
-#                 normal += 1.
-#             if cv[1] == 1:
-#                 dme += 1.
-
-#         print '----- RADIUS  {} -----'.format(radius)
-#         print '----- # WORDS {} -----'.format(nw[idx_w])
-#         print 'The statistic are the following:'
-#         print 'Sensitivity: {} - Specificity: {}'.format(dme / float(result_array.shape[1]),
-#                                                          normal / float(result_array.shape[1]))
-#         print 'DME: {} / {} - Normal: {}/ {}'.format(dme,
-#                                                      float(result_array.shape[1]),
-#                                                      normal,
-#                                                      float(result_array.shape[1]))
-#         print ''
-
-# print ''
-# print 'LBP histogram + sliding window + BOW Complementsx'
-# print ''
-
-    
-# nw = [40, 60, 80, 100]
-
-# radius = 2
-
-# path_result = '/work/le2i/gu5306le/OCT/lbp_r_' + str(radius) + '_hist_BoW_now_results2/bow.pkl'
-
-# # Load the results from the given path
-# result = joblib.load(path_result)
-# result_array = np.array(result)
-
-# # Swap the two first axis
-# result_array = np.rollaxis(result_array, 0, 2)
-
-# # Go throught the different words
-# for idx_w, w in enumerate(result_array):
-    
-#     normal = 0.
-#     dme = 0.
-#     # Extract the results on the testing set
-#     for cv in w[:, 0]:
-        
-#         if cv[0] == 0:
-#             normal += 1.
-#         if cv[1] == 1:
-#             dme += 1.
-
-#     print '----- RADIUS  {} -----'.format(radius)
-#     print '----- # WORDS {} -----'.format(nw[idx_w])
-#     print 'The statistic are the following:'
-#     print 'Sensitivity: {} - Specificity: {}'.format(dme / float(result_array.shape[1]),
-#                                                      normal / float(result_array.shape[1]))
-#     print 'DME: {} / {} - Normal: {}/ {}'.format(dme,
-#                                                  float(result_array.shape[1]),
-#                                                  normal,
-#                                                  float(result_array.shape[1]))
-#     print ''
-
-
-# print ''
-# print 'LBP histogram + sliding window + BOW + combine'
-# print ''
-        
-# nw = [2, 4, 8, 16, 32]
-
-# path_result = '/work/le2i/gu5306le/OCT/lbp_hist_BoW_comb_results/bow.pkl'
-
-# # Load the results from the given path
-# result = joblib.load(path_result)
-# result_array = np.array(result)
-
-# # Swap the two first axis
-# result_array = np.rollaxis(result_array, 0, 2)
-
-# # Go throught the different words
-# for idx_w, w in enumerate(result_array):
-    
-#     normal = 0.
-#     dme = 0.
-#     # Extract the results on the testing set
-#     for cv in w[:, 0]:
-            
-#         if cv[0] == 0:
-#             normal += 1.
-#         if cv[1] == 1:
-#             dme += 1.
-
-#     print '----- # WORDS {} -----'.format(nw[idx_w])
-#     print 'The statistic are the following:'
-#     print 'Sensitivity: {} - Specificity: {}'.format(dme / float(result_array.shape[1]),
-#                                                      normal / float(result_array.shape[1]))
-#     print 'DME: {} / {} - Normal: {}/ {}'.format(dme,
-#                                                  float(result_array.shape[1]),
-#                                                  normal,
-#                                                  float(result_array.shape[1]))
-#     print ''
-
-# print ''
-# print 'LBP histogram + BOW + combine'
-# print ''
-        
-# nw = [200]
-
-# path_result = '/work/le2i/gu5306le/OCT/lbp_r_2_hist_BoW_now_results_200/bow.pkl'
-
-# # Load the results from the given path
-# result = joblib.load(path_result)
-# result_array = np.array(result)
-
-# # Swap the two first axis
-# result_array = np.rollaxis(result_array, 0, 2)
-
-# # Go throught the different words
-# for idx_w, w in enumerate(result_array):
-    
-#     normal = 0.
-#     dme = 0.
-#     # Extract the results on the testing set
-#     for cv in w[:, 0]:
-            
-#         if cv[0] == 0:
-#             normal += 1.
-#         if cv[1] == 1:
-#             dme += 1.
-
-#     print '----- # WORDS {} -----'.format(nw[idx_w])
-#     print 'The statistic are the following:'
-#     print 'Sensitivity: {} - Specificity: {}'.format(dme / float(result_array.shape[1]),
-#                                                      normal / float(result_array.shape[1]))
-#     print 'DME: {} / {} - Normal: {}/ {}'.format(dme,
-#                                                  float(result_array.shape[1]),
-#                                                  normal,
-#                                                  float(result_array.shape[1]))
-#     print ''
-
-# print 'DUKE DATSET'
-# print ''
-# print 'LBP histogram + BOW + sliding window'
-# print ''
-
-# nw = [2, 4, 8, 16, 32]
-
-# path_result = '/work/le2i/gu5306le/dukeOCT/dataset/lbp_r_1_hist_BoW_now_results/bow.pkl'
-
-# # Load the results from the given path
-# result = joblib.load(path_result)
-# result_array = np.array(result)
-
-# # Swap the two first axis
-# result_array = np.rollaxis(result_array, 0, 2)
-
-# # Go throught the different words
-# for idx_w, w in enumerate(result_array):
-    
-#     normal = 0.
-#     dme = 0.
-#     # Extract the results on the testing set
-#     for cv in w[:, 0]:
-            
-#         if cv[0] == 0:
-#             normal += 1.
-#         if cv[1] == 1:
-#             dme += 1.
-
-#     print '----- # WORDS {} -----'.format(nw[idx_w])
-#     print 'The statistic are the following:'
-#     print 'Sensitivity: {} - Specificity: {}'.format(dme / float(result_array.shape[1]),
-#                                                      normal / float(result_array.shape[1]))
-#     print 'DME: {} / {} - Normal: {}/ {}'.format(dme,
-#                                                  float(result_array.shape[1]),
-#                                                  normal,
-#                                                  float(result_array.shape[1]))
-#     print ''
-
-# print ''
-# print 'LBP histogram + BOW + sliding window'
-# print ''
-
-# nw = [2, 4, 8, 16, 32]
-
-# path_result = '/work/le2i/gu5306le/dukeOCT/dataset/lbp_r_2_hist_BoW_now_results/bow.pkl'
-
-# # Load the results from the given path
-# result = joblib.load(path_result)
-# result_array = np.array(result)
-
-# # Swap the two first axis
-# result_array = np.rollaxis(result_array, 0, 2)
-
-# # Go throught the different words
-# for idx_w, w in enumerate(result_array):
-    
-#     normal = 0.
-#     dme = 0.
-#     # Extract the results on the testing set
-#     for cv in w[:, 0]:
-            
-#         if cv[0] == 0:
-#             normal += 1.
-#         if cv[1] == 1:
-#             dme += 1.
-
-#     print '----- # WORDS {} -----'.format(nw[idx_w])
-#     print 'The statistic are the following:'
-#     print 'Sensitivity: {} - Specificity: {}'.format(dme / float(result_array.shape[1]),
-#                                                      normal / float(result_array.shape[1]))
-#     print 'DME: {} / {} - Normal: {}/ {}'.format(dme,
-#                                                  float(result_array.shape[1]),
-#                                                  normal,
-#                                                  float(result_array.shape[1]))
-#     print ''
-
-# print ''
-# print 'LBP histogram + BOW + sliding window'
-# print ''
-
-# nw = [2, 4, 8, 16, 32]
-
-# path_result = '/work/le2i/gu5306le/dukeOCT/dataset/lbp_r_3_hist_BoW_now_results/bow.pkl'
-
-# # Load the results from the given path
-# result = joblib.load(path_result)
-# result_array = np.array(result)
-
-# # Swap the two first axis
-# result_array = np.rollaxis(result_array, 0, 2)
-
-# # Go throught the different words
-# for idx_w, w in enumerate(result_array):
-    
-#     normal = 0.
-#     dme = 0.
-#     # Extract the results on the testing set
-#     for cv in w[:, 0]:
-            
-#         if cv[0] == 0:
-#             normal += 1.
-#         if cv[1] == 1:
-#             dme += 1.
-
-#     print '----- # WORDS {} -----'.format(nw[idx_w])
-#     print 'The statistic are the following:'
-#     print 'Sensitivity: {} - Specificity: {}'.format(dme / float(result_array.shape[1]),
-#                                                      normal / float(result_array.shape[1]))
-#     print 'DME: {} / {} - Normal: {}/ {}'.format(dme,
-#                                                  float(result_array.shape[1]),
-#                                                  normal,
-#                                                  float(result_array.shape[1]))
-#     print ''
-
-# import matplotlib.pyplot as plt
-# import seaborn as sns
-# sns.set(palette="Set2")
-
-# print ''
-# print 'LBP histogram + Random BOW + sliding window'
-# print ''
-
-# nw = [2, 4, 8, 16, 32, 64, 80, 100, 150, 200, 250, 300, 350, 400]
-
-# specificity_try = []
-# sensitivity_try = []
-# accuracy_try = []
-# for mtry in range(1, 6):
-
-#     path_result = '/work/le2i/gu5306le/OCT/lbp_r_3_hist_BoW_now_random_results_'+str(mtry)+'/bow.pkl'
-
-#     # Load the results from the given path
-#     result = joblib.load(path_result)
-#     result_array = np.array(result)
-
-#     # Swap the two first axis
-#     result_array = np.rollaxis(result_array, 0, 2)
-
-#     # Go throught the different words
-#     specificity_word = []
-#     sensitivity_word = []
-#     accuracy_word = []
-#     for idx_w, w in enumerate(result_array):
-    
-#         normal = 0.
-#         dme = 0.
-#         # Extract the results on the testing set
-#         for cv in w[:, 0]:
-            
-#             if cv[0] == 0:
-#                 normal += 1.
-#             if cv[1] == 1:
-#                 dme += 1.
-
-#         # Append the results for this word
-#         specificity_word.append(normal / float(result_array.shape[1]))
-#         sensitivity_word.append(dme / float(result_array.shape[1]))
-#         accuracy_word.append((normal + dme) / float(result_array.shape[1] * 2.))
-
-#         print '----- # WORDS {} -----'.format(nw[idx_w])
-#         print 'The statistic are the following:'
-#         print 'Sensitivity: {} - Specificity: {}'.format(dme / float(result_array.shape[1]),
-#                                                          normal / float(result_array.shape[1]))
-#         print 'DME: {} / {} - Normal: {}/ {}'.format(dme,
-#                                                      float(result_array.shape[1]),
-#                                                      normal,
-#                                                      float(result_array.shape[1]))
-#         print ''
-
-    
-#     specificity_try.append(specificity_word)
-#     sensitivity_try.append(sensitivity_word)
-#     accuracy_try.append(accuracy_word)
-
-# specificity_try = np.array(specificity_try)
-# sensitivity_try = np.array(sensitivity_try)
-# accuracy_try = np.array(accuracy_try)
-
-# spe_inter = []
-# sen_inter = []
-# acc_inter = []
-# from scipy import interpolate
-# for mtry in range(5):
-#     def intdata(x, y):
-#         f = interpolate.interp1d(x, y, kind="cubic")
-#         xnew = np.linspace(2, 400, 399)
-#         return f(xnew)
-
-#     spe_inter.append(intdata(np.array(nw), specificity_try[mtry, :]))
-#     sen_inter.append(intdata(np.array(nw), sensitivity_try[mtry, :]))
-#     acc_inter.append(intdata(np.array(nw), accuracy_try[mtry, :]))
-
-# #color_map = dict(slow="indianred", average="darkseagreen", fast="steelblue")
-# sns.tsplot(spe_inter, color="indianred", condition="Specificity")
-# sns.tsplot(sen_inter, color="darkseagreen", condition="Sensitivity")
-# sns.tsplot(acc_inter, color="steelblue", condition="Accuracy")
-# sns.tsplot(specificity_try, time=np.array(nw), color="indianred", err_style="ci_bars", interpolate=False)
-# sns.tsplot(sensitivity_try, time=np.array(nw), color="darkseagreen", err_style="ci_bars", interpolate=False)
-# sns.tsplot(accuracy_try, time=np.array(nw), color="steelblue", err_style="ci_bars", interpolate=False)
-# plt.xlabel('Number of words')
-# plt.show()
-
-# print ''
-# print 'FINAL - LBP histogram + sliding window + BOW - Radius 1'
-# print ''
-        
-# nw = [32]
-
-# path_result = '/work/le2i/gu5306le/OCT/lbp_r_1_hist_BoW_now_results_final/bow.pkl'
-
-# # Load the results from the given path
-# result = joblib.load(path_result)
-# result_array = np.array(result)
-
-# # Swap the two first axis
-# result_array = np.rollaxis(result_array, 0, 2)
-
-# # Go throught the different words
-# for idx_w, w in enumerate(result_array):
-    
-#     normal = 0.
-#     dme = 0.
-#     # Extract the results on the testing set
-#     for cv in w[:, 0]:
-            
-#         if cv[0] == 0:
-#             normal += 1.
-#         if cv[1] == 1:
-#             dme += 1.
-
-#     print '----- # WORDS {} -----'.format(nw[idx_w])
-#     print 'The statistic are the following:'
-#     print 'Sensitivity: {} - Specificity: {}'.format(dme / float(result_array.shape[1]),
-#                                                      normal / float(result_array.shape[1]))
-#     print 'DME: {} / {} - Normal: {}/ {}'.format(dme,
-#                                                  float(result_array.shape[1]),
-#                                                  normal,
-#                                                  float(result_array.shape[1]))
-#     print ''
-
-
-# print ''
-# print 'FINAL - LBP histogram + sliding window + BOW - Radius 2'
-# print ''
-        
-# nw = [32]
-
-# path_result = '/work/le2i/gu5306le/OCT/lbp_r_2_hist_BoW_now_results_final/bow.pkl'
-
-# # Load the results from the given path
-# result = joblib.load(path_result)
-# result_array = np.array(result)
-
-# # Swap the two first axis
-# result_array = np.rollaxis(result_array, 0, 2)
-
-# # Go throught the different words
-# for idx_w, w in enumerate(result_array):
-    
-#     normal = 0.
-#     dme = 0.
-#     # Extract the results on the testing set
-#     for cv in w[:, 0]:
-            
-#         if cv[0] == 0:
-#             normal += 1.
-#         if cv[1] == 1:
-#             dme += 1.
-
-#     print '----- # WORDS {} -----'.format(nw[idx_w])
-#     print 'The statistic are the following:'
-#     print 'Sensitivity: {} - Specificity: {}'.format(dme / float(result_array.shape[1]),
-#                                                      normal / float(result_array.shape[1]))
-#     print 'DME: {} / {} - Normal: {}/ {}'.format(dme,
-#                                                  float(result_array.shape[1]),
-#                                                  normal,
-#                                                  float(result_array.shape[1]))
-#     print ''
-
-
-# print ''
-# print 'FINAL - LBP histogram + sliding window + BOW - Radius 3'
-# print ''
-        
-# nw = [32]
-
-# path_result = '/work/le2i/gu5306le/OCT/lbp_r_3_hist_BoW_now_results_final/bow.pkl'
-
-# # Load the results from the given path
-# result = joblib.load(path_result)
-# result_array = np.array(result)
-
-# # Swap the two first axis
-# result_array = np.rollaxis(result_array, 0, 2)
-
-# # Go throught the different words
-# for idx_w, w in enumerate(result_array):
-    
-#     normal = 0.
-#     dme = 0.
-#     # Extract the results on the testing set
-#     for cv in w[:, 0]:
-            
-#         if cv[0] == 0:
-#             normal += 1.
-#         if cv[1] == 1:
-#             dme += 1.
-
-#     print '----- # WORDS {} -----'.format(nw[idx_w])
-#     print 'The statistic are the following:'
-#     print 'Sensitivity: {} - Specificity: {}'.format(dme / float(result_array.shape[1]),
-#                                                      normal / float(result_array.shape[1]))
-#     print 'DME: {} / {} - Normal: {}/ {}'.format(dme,
-#                                                  float(result_array.shape[1]),
-#                                                  normal,
-#                                                  float(result_array.shape[1]))
-#     print ''
-
-# nw = [2, 4, 8, 16, 32]
-
-# path_result = '/work/le2i/gu5306le/dukeOCT/dataset/lbp_hist_BoW_now_comb_results/bow.pkl'
-
-# # Load the results from the given path
-# result = joblib.load(path_result)
-# result_array = np.array(result)
-
-# # Swap the two first axis
-# result_array = np.rollaxis(result_array, 0, 2)
-
-# # Go throught the different words
-# for idx_w, w in enumerate(result_array):
-    
-#     normal = 0.
-#     dme = 0.
-#     # Extract the results on the testing set
-#     for cv in w[:, 0]:
-            
-#         if cv[0] == 0:
-#             normal += 1.
-#         if cv[1] == 1:
-#             dme += 1.
-
-#     print '----- # WORDS {} -----'.format(nw[idx_w])
-#     print 'The statistic are the following:'
-#     print 'Sensitivity: {} - Specificity: {}'.format(dme / float(result_array.shape[1]),
-#                                                      normal / float(result_array.shape[1]))
-#     print 'DME: {} / {} - Normal: {}/ {}'.format(dme,
-#                                                  float(result_array.shape[1]),
-#                                                  normal,
-#                                                  float(result_array.shape[1]))
-#     print ''
+            # Swap the two first axis
+            #result_array = np.rollaxis(result_array, 0, 2)
+
+            # Go throught the different words
+            specificity_word = []
+            sensitivity_word = []
+            accuracy_word = []
+            f1_word = []
+
+            normal = 0.
+            dme = 0.
+            # Extract the results on the testing set
+            for cv in result_array[:, 0]:
+
+                if cv[0] == 0:
+                    normal += 1.
+                if cv[1] == 1:
+                    dme += 1.
+
+            # Append the results for this word
+            specificity_word.append(normal / float(result_array.shape[0]))
+            sensitivity_word.append(dme / float(result_array.shape[0]))
+            f1_word.append((2. * dme) / 
+                           ((2. * dme) + 
+                            (float(result_array.shape[0]) - normal) + 
+                            (float(result_array.shape[0]) - dme)))
+            accuracy_word.append((normal + dme) / float(result_array.shape[0] * 2.))
+
+            print 'The statistic are the following:'
+            print 'Sensitivity: {} - Specificity: {}'.format(dme / float(result_array.shape[0]),
+                                                             normal / float(result_array.shape[0]))
+            print 'DME: {} / {} - Normal: {}/ {}'.format(dme,
+                                                         float(result_array.shape[0]),
+                                                         normal,
+                                                         float(result_array.shape[0]))
+            print ''
+
+            # if (radius == 1):
+            #     ax1.semilogx(np.array(nw), accuracy_word, label='Accuracy - Radius ' + str(radius))
+            #     ax1.semilogx(np.array(nw), f1_word, label='F1 score - Radius ' + str(radius))
+            #     ax1.legend(bbox_to_anchor=(0., 1.02, 1., .102), loc=3, ncol=2, mode="expand", borderaxespad=0.)
+            # elif (radius == 2):
+            #     ax2.semilogx(np.array(nw), accuracy_word, label='Accuracy - Radius ' + str(radius))
+            #     ax2.semilogx(np.array(nw), f1_word, label='F1 score - Radius ' + str(radius))
+            #     ax2.legend(bbox_to_anchor=(0., 1.02, 1., .102), loc=3, ncol=2, mode="expand", borderaxespad=0.)
+            # elif (radius == 3):
+            #     ax3.semilogx(np.array(nw), accuracy_word, label='Accuracy - Radius ' + str(radius))
+            #     ax3.semilogx(np.array(nw), f1_word, label='F1 score - Radius ' + str(radius))
+            #     ax3.legend(bbox_to_anchor=(0., 1.02, 1., .102), loc=3, ncol=2, mode="expand", borderaxespad=0.)
+
+            # Fine-tune figure; make subplots close to each other and hide x ticks for
+            # all but bottom plot.
+        #     f.subplots_adjust(hspace=.2)
+
+        # plt.xlabel('Number of words')
+        # plt.show()
+
+config = [{'classifier_str' : 'random-forest', 'n_estimators' : 100, 'gs_n_jobs' : 8},
+          {'classifier_str' : 'knn', 'n_neighbors' : 3, 'gs_n_jobs' : 8},
+          {'classifier_str' : 'knn', 'n_neighbors' : 5, 'gs_n_jobs' : 8},
+          {'classifier_str' : 'knn', 'n_neighbors' : 7, 'gs_n_jobs' : 8},
+          {'classifier_str' : 'logistic-regression', 'gs_n_jobs' : 8},
+          {'classifier_str' : 'kernel-svm', 'gs_n_jobs' : 8},
+          {'classifier_str' : 'gradient-boosting', 'n_estimators' : 100, 'gs_n_jobs' : 8}]
+
+nw = [100]
 
 print ''
-print 'LBP NRI NON FLATTEN'
+print 'LBP - non_flatten - global'
 print ''
 
-for radius in range(1, 4):
-    path_result = '/work/le2i/gu5306le/OCT/SPIE/lbp_nri_non_flatten_r_' + str(radius) + '_hist_results/hist.pkl'
+# Define the path for flatten image
+path_result = '/data/retinopathy/OCT/SERI/results/non_flatten/lbp_riu/lbp_hist/lbp_global'
 
-    # Load the results from the given path
-    result = joblib.load(path_result)
-    result_array = np.array(result)
-
-    normal = 0.
-    dme = 0.
-    # Extract the results on the testing set
-    for cv in result_array[:, 0]:
-        
-        if cv[0] == 0:
-            normal += 1.
-        if cv[1] == 1:
-            dme += 1.
-
-    print '----- RADIUS  {} -----'.format(radius)
-    print 'The statistic are the following:'
-    print 'Sensitivity: {} - Specificity: {}'.format(dme / float(result_array.shape[0]),
-                                                     normal / float(result_array.shape[0]))
-    print 'DME: {} / {} - Normal: {}/ {}'.format(dme,
-                                                 float(result_array.shape[0]),
-                                                 normal,
-                                                 float(result_array.shape[0]))
-    print ''
+report_plot(path_result, nw, config)
 
 print ''
-print 'LBP NRI FLATTEN'
-print ''
-    
-for radius in range(1, 4):
-    path_result = '/work/le2i/gu5306le/OCT/SPIE/lbp_nri_flatten_r_' + str(radius) + '_hist_results/hist.pkl'
-
-    # Load the results from the given path
-    result = joblib.load(path_result)
-    result_array = np.array(result)
-
-    normal = 0.
-    dme = 0.
-    # Extract the results on the testing set
-    for cv in result_array[:, 0]:
-        
-        if cv[0] == 0:
-            normal += 1.
-        if cv[1] == 1:
-            dme += 1.
-
-    print '----- RADIUS  {} -----'.format(radius)
-    print 'The statistic are the following:'
-    print 'Sensitivity: {} - Specificity: {}'.format(dme / float(result_array.shape[0]),
-                                                     normal / float(result_array.shape[0]))
-    print 'DME: {} / {} - Normal: {}/ {}'.format(dme,
-                                                 float(result_array.shape[0]),
-                                                 normal,
-                                                 float(result_array.shape[0]))
-    print ''
-
-print ''
-print 'LBP-TOP NRI NON FLATTEN'
-print ''
-    
-for radius in range(1, 4):
-    path_result = '/work/le2i/gu5306le/OCT/SPIE/lbptop_nri_r_' + str(radius) + '_results/hist.pkl'
-
-    # Load the results from the given path
-    result = joblib.load(path_result)
-    result_array = np.array(result)
-
-    normal = 0.
-    dme = 0.
-    # Extract the results on the testing set
-    for cv in result_array[:, 0]:
-        
-        if cv[0] == 0:
-            normal += 1.
-        if cv[1] == 1:
-            dme += 1.
-
-    print '----- RADIUS  {} -----'.format(radius)
-    print 'The statistic are the following:'
-    print 'Sensitivity: {} - Specificity: {}'.format(dme / float(result_array.shape[0]),
-                                                     normal / float(result_array.shape[0]))
-    print 'DME: {} / {} - Normal: {}/ {}'.format(dme,
-                                                 float(result_array.shape[0]),
-                                                 normal,
-                                                 float(result_array.shape[0]))
-    print ''
-
-print ''
-print 'LBP-TOP NRI FLATTEN'
-print ''
-    
-for radius in range(1, 4):
-    path_result = '/work/le2i/gu5306le/OCT/SPIE/lbptop_nri_flatten_r_' + str(radius) + '_results/hist.pkl'
-
-    # Load the results from the given path
-    result = joblib.load(path_result)
-    result_array = np.array(result)
-
-    normal = 0.
-    dme = 0.
-    # Extract the results on the testing set
-    for cv in result_array[:, 0]:
-        
-        if cv[0] == 0:
-            normal += 1.
-        if cv[1] == 1:
-            dme += 1.
-
-    print '----- RADIUS  {} -----'.format(radius)
-    print 'The statistic are the following:'
-    print 'Sensitivity: {} - Specificity: {}'.format(dme / float(result_array.shape[0]),
-                                                     normal / float(result_array.shape[0]))
-    print 'DME: {} / {} - Normal: {}/ {}'.format(dme,
-                                                 float(result_array.shape[0]),
-                                                 normal,
-                                                 float(result_array.shape[0]))
-    print ''
-
-print ''
-print 'LBP NRI NON FLATTEN - BoW - Sliding Window'
-print ''
-    
-nw = [32]
-
-print '----- RADIUS  1 -----'
-
-path_result = '/work/le2i/gu5306le/OCT/SPIE/lbp_nri_non_flatten_r_1_hist_BoW_now_results/bow.pkl'
-
-# Load the results from the given path
-result = joblib.load(path_result)
-result_array = np.array(result)
-
-# Swap the two first axis
-result_array = np.rollaxis(result_array, 0, 2)
-
-# Go throught the different words
-for idx_w, w in enumerate(result_array):
-    
-    normal = 0.
-    dme = 0.
-    # Extract the results on the testing set
-    for cv in w[:, 0]:
-            
-        if cv[0] == 0:
-            normal += 1.
-        if cv[1] == 1:
-            dme += 1.
-
-    print '----- # WORDS {} -----'.format(nw[idx_w])
-    print 'The statistic are the following:'
-    print 'Sensitivity: {} - Specificity: {}'.format(dme / float(result_array.shape[1]),
-                                                     normal / float(result_array.shape[1]))
-    print 'DME: {} / {} - Normal: {}/ {}'.format(dme,
-                                                 float(result_array.shape[1]),
-                                                 normal,
-                                                 float(result_array.shape[1]))
-    print ''
-
-print '----- RADIUS  2 -----'
-
-path_result = '/work/le2i/gu5306le/OCT/SPIE/lbp_nri_non_flatten_r_2_hist_BoW_now_results/bow.pkl'
-
-# Load the results from the given path
-result = joblib.load(path_result)
-result_array = np.array(result)
-
-# Swap the two first axis
-result_array = np.rollaxis(result_array, 0, 2)
-
-# Go throught the different words
-for idx_w, w in enumerate(result_array):
-    
-    normal = 0.
-    dme = 0.
-    # Extract the results on the testing set
-    for cv in w[:, 0]:
-            
-        if cv[0] == 0:
-            normal += 1.
-        if cv[1] == 1:
-            dme += 1.
-
-    print '----- # WORDS {} -----'.format(nw[idx_w])
-    print 'The statistic are the following:'
-    print 'Sensitivity: {} - Specificity: {}'.format(dme / float(result_array.shape[1]),
-                                                     normal / float(result_array.shape[1]))
-    print 'DME: {} / {} - Normal: {}/ {}'.format(dme,
-                                                 float(result_array.shape[1]),
-                                                 normal,
-                                                 float(result_array.shape[1]))
-    print ''
-
-print ''
-print 'LBP NRI FLATTEN - BoW - Sliding Window'
+print 'LBP - flatten - global'
 print ''
 
-nw = [32, 100, 500, 1000, 2000, 3000]
+# Define the path for flatten image
+path_result = '/data/retinopathy/OCT/SERI/results/flatten/lbp_riu/lbp_hist/lbp_global'
 
-path_result = '/work/le2i/gu5306le/OCT/SPIE/lbp_nri_flatten_r_1_hist_BoW_now_results/bow.pkl'
+report_plot(path_result, nw, config)
 
-# Load the results from the given path
-result = joblib.load(path_result)
-result_array = np.array(result)
+print ''
+print 'LBP - flatten aligned - global'
+print ''
 
-# Swap the two first axis
-result_array = np.rollaxis(result_array, 0, 2)
+# Define the path for flatten image
+path_result = '/data/retinopathy/OCT/SERI/results/flatten_aligned/lbp_riu/lbp_hist/lbp_global'
 
-# Go throught the different words
-for idx_w, w in enumerate(result_array):
-    
-    normal = 0.
-    dme = 0.
-    # Extract the results on the testing set
-    for cv in w[:, 0]:
-            
-        if cv[0] == 0:
-            normal += 1.
-        if cv[1] == 1:
-            dme += 1.
+report_plot(path_result, nw, config)
 
-    print '----- # WORDS {} -----'.format(nw[idx_w])
-    print 'The statistic are the following:'
-    print 'Sensitivity: {} - Specificity: {}'.format(dme / float(result_array.shape[1]),
-                                                     normal / float(result_array.shape[1]))
-    print 'DME: {} / {} - Normal: {}/ {}'.format(dme,
-                                                 float(result_array.shape[1]),
-                                                 normal,
-                                                 float(result_array.shape[1]))
-    print ''
+print ''
+print 'LBP - flatten aligned cropped - global'
+print ''
+
+# Define the path for flatten image
+path_result = '/data/retinopathy/OCT/SERI/results/flatten_aligned_cropped/lbp_riu/lbp_hist/lbp_global'
+
+report_plot(path_result, nw, config)

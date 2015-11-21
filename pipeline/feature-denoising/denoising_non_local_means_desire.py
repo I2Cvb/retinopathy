@@ -39,12 +39,13 @@ else:
     vol = loadmat(filename_data)
     vol = vol['images']
     vol = np.rollaxis(vol, 0, 3)
+    vol = vol / 255.
 
     print vol.shape
     
     # Apply the filtering using 8 cores
-    num_cores = 80
-    vol_denoised = Denoising3D(vol, denoising_method='non-local-means', num_cores=num_cores)
+    num_cores = 40
+    vol_denoised = Denoising3D(vol, denoising_method='non-local-means', num_cores=num_cores, h=.08)
     #vol_denoised = Denoising3D(vol, denoising_method='non-local-means')
     
 

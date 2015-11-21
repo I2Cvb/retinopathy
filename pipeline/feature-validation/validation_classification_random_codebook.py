@@ -21,10 +21,14 @@ def report_plot(path, nw, config):
         for result in result_all_config:
             
             result_array = np.array(result)
-            print result_array.shape
 
             # Swap the two first axis
             result_array = np.rollaxis(result_array, 0, 2)
+            
+            ###############################################
+            #### TMP SHOULD BE REMOVED AT SOME POINT ######
+            result_array = result_array[:len(nw), :, :]
+            print result_array.shape
 
             # Go throught the different words
             specificity_word = []
@@ -99,6 +103,12 @@ def report_plot(path, nw, config):
             # Swap the two first axis
             result_array = np.rollaxis(result_array, 0, 2)
 
+            ###############################################
+            #### TMP SHOULD BE REMOVED AT SOME POINT ######
+            result_array = result_array[:len(nw), :, :]
+            print result_array.shape
+
+
             # Go throught the different words
             specificity_word = []
             sensitivity_word = []
@@ -161,47 +171,100 @@ config = [{'classifier_str' : 'random-forest', 'n_estimators' : 100, 'gs_n_jobs'
           {'classifier_str' : 'kernel-svm', 'gs_n_jobs' : 8},
           {'classifier_str' : 'gradient-boosting', 'n_estimators' : 100, 'gs_n_jobs' : 8}]
 
+# Check the following configuration:
+# ##### LBP + BOW + LOCAL #####
+
 nw = [10, 20, 30, 40, 50, 60, 70, 80, 90,
       100, 200, 300, 400, 500,
       1000, 2000, 3000, 4000, 5000]
 
-# Define the path for flatten image
-path_result = '/data/retinopathy/OCT/SERI/results/flatten/lbp_riu/lbp_hist/lbp_local'
+# ### Non-flatten
+# # Define the path for non flatten image
+# path_result = '/data/retinopathy/OCT/SERI/results/non_flatten/lbp_riu/lbp_hist/lbp_local'
 
-report_plot(path_result, nw, config)
+# # report_plot(path_result, nw, config)
 
-# nw = [10, 20, 30, 40, 50, 60, 70, 80, 90,
-#       100, 200, 300, 400, 500]
-
+# ### Flatten
 # # Define the path for flatten image
-# path_result = '/work/le2i/gu5306le/retinopathy/OCT/Duke/results/flatten_aligned/lbp_riu/lbp_local'
+# path_result = '/data/retinopathy/OCT/SERI/results/flatten/lbp_riu/lbp_hist/lbp_local'
+
+# # report_plot(path_result, nw, config)
+
+# ### Flatten-aligned
+# # Define the path for flatten image
+# path_result = '/data/retinopathy/OCT/SERI/results/flatten_aligned/lbp_riu/lbp_hist/lbp_local'
 
 # report_plot(path_result, nw, config)
+
+# ### Flatten-aligned cropped
+# Define the path for flatten image
 
 # nw = [10, 20, 30, 40, 50, 60, 70, 80, 90,
 #       100, 200, 300, 400, 500,
 #       1000]
 
+# path_result = '/data/retinopathy/OCT/SERI/results/flatten_aligned_cropped/lbp_riu/lbp_hist/lbp_local'
+
+# report_plot(path_result, nw, config)
+
+# Check the following configuration:
+##### LBP + BOW + GLOBAL #####
+
+nw = [10, 20, 30, 40, 50, 60, 70, 80, 90,
+      100, 200, 300, 400, 500,
+      1000]
+
+# ### Non-flatten
+# # Define the path for non flatten image
+# path_result = '/data/retinopathy/OCT/SERI/results/non_flatten/lbp_riu/lbp_hist/lbp_global'
+
+# report_plot(path_result, nw, config)
+
+# ### Flatten
 # # Define the path for flatten image
-# path_result = '/data/retinopathy/OCT/SERI/results/flatten/lbp_riu/lbp_global'
+# path_result = '/data/retinopathy/OCT/SERI/results/flatten/lbp_riu/lbp_hist/lbp_global'
 
 # report_plot(path_result, nw, config)
 
-# # Define the path for flatte and aligned image 
-# path_result = '/data/retinopathy/OCT/SERI/results/flatten_aligned/lbp_riu/lbp_global'
-
-# report_plot(path_result, nw, config)
-
-# nw = [10, 20, 30, 40, 50, 60, 70, 80, 90,
-#       100, 200, 300, 400, 500,
-#       1000, 2000, 3000, 4000, 5000]
-
+# ### Flatten-aligned
 # # Define the path for flatten image
-# path_result = '/data/retinopathy/OCT/SERI/results/flatten/lbp_riu/lbp_local'
+# path_result = '/data/retinopathy/OCT/SERI/results/flatten_aligned/lbp_riu/lbp_hist/lbp_global'
 
 # report_plot(path_result, nw, config)
 
-# # Define the path for flatte and aligned image 
-# path_result = '/data/retinopathy/OCT/SERI/results/flatten_aligned/lbp_riu/lbp_local'
+# ### Flatten-aligned cropped
+# # Define the path for flatten image
+# path_result = '/data/retinopathy/OCT/SERI/results/flatten_aligned_cropped/lbp_riu/lbp_hist/lbp_global'
+
+# report_plot(path_result, nw, config)
+
+# Check the following configuration:
+##### LBP-TOP + BOW + LOCAL #####
+
+nw = [10, 20, 30, 40, 50, 60, 70, 80, 90,
+      100, 200, 300, 400, 500,
+      1000, 2000, 3000, 4000, 5000]
+
+### Non-flatten
+# Define the path for non flatten image
+path_result = '/data/retinopathy/OCT/SERI/results/non_flatten/lbp_riu/lbp_hist_top/lbp_local'
+
+report_plot(path_result, nw, config)
+
+### Flatten
+# Define the path for flatten image
+path_result = '/data/retinopathy/OCT/SERI/results/flatten/lbp_riu/lbp_hist_top/lbp_local'
+
+report_plot(path_result, nw, config)
+
+### Flatten-aligned
+# Define the path for flatten image
+path_result = '/data/retinopathy/OCT/SERI/results/flatten_aligned/lbp_riu/lbp_hist_top/lbp_local'
+
+report_plot(path_result, nw, config)
+
+# ### Flatten-aligned cropped
+# # Define the path for flatten image
+# path_result = '/data/retinopathy/OCT/SERI/results/flatten_aligned_cropped/lbp_riu/lbp_hist_top/lbp_local'
 
 # report_plot(path_result, nw, config)
