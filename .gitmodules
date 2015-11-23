@@ -7,3 +7,6 @@
 [submodule "third-party/protoclass"]
 	path = third-party/protoclass
 	url = https://github.com/glemaitre/protoclass
+[submodule "doc/jo-2015"]
+	path = doc/jo-2015
+	url = https://github.com/I2Cvb/oct-journal.git
