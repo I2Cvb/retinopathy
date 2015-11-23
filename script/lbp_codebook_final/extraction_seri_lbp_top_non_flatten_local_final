@@ -1,0 +1,46 @@
+#!/bin/bash
+
+# Name of the dataset
+name_dataset='seri'
+# Input path
+input_path='/work/le2i/gu5306le/retinopathy/OCT/SERI/feature_data/non_flatten/lbp_riu/lbp_hist_top/lbp_local'
+# Output path
+# output_path='/work/le2i/gu5306le/retinopathy/OCT/SERI/results/non_flatten/lbp_riu/lbp_hist/lbp_local'
+# Type of codebook
+# codebook_type='codebook_random'
+# Number of words for this specific dictionnary
+### For radius 1
+nbwordr1=400
+### For radius 2
+nbwordr2=500
+### For radius 3
+nbwordr3=60
+
+# Keep the directory of the script into a variable
+script_dir=$(pwd)
+
+for radius in `seq 1 3`;
+do
+    # Choose the correct number of words
+    if [ ${radius} -eq 1 ]; then
+	nw=${nbwordr1}
+    elif [ ${radius} -eq 2 ]; then
+	nw=${nbwordr2}
+    elif [ ${radius} -eq 3 ]; then
+	nw=${nbwordr3}
+    fi
+    
+    # Create an automatic script
+    script_filename_core='/script_lbp_top_non_flatten_local_final_r_'
+    script_filename="$script_dir$script_filename_core$radius"
+    ### Create the file
+    touch $script_filename
+    ### Truncate the file if it is existing
+    : > $script_filename
+    
+    printf "ipython ../../pipeline/feature-extraction/${name_dataset}/extraction_lbp_top_codebook_final.py ${radius} \"${input_path}\" ${nw} " >> $script_filename
+    ### Make it executable
+    chmod u+x $script_filename
+    # Submit the job to the queue
+    qsub -q batch -pe smp 8 $script_filename
+done

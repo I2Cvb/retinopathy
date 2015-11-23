@@ -203,3 +203,7 @@ target/
 # avoid scratch folder
 scratch/
 src/.ipynb_checkpoints/
+
+# avoid log cluster
+*.o*
+*.po*
