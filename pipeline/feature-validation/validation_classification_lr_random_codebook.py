@@ -15,7 +15,7 @@ import matplotlib
 
 counter_fig = 1
 
-def report_plot(path, nw, config):
+def report_plot(path, nw, config, title):
 
     # Three subplots sharing both x/y axes
     f, (ax1, ax2) = plt.subplots(1, 2)
@@ -124,11 +124,12 @@ def report_plot(path, nw, config):
             #f.subplots_adjust(hspace=.1)
 
     plt.figlegend(mylines, ('Radius 1', 'Radius 2', 'Radius 3'), 
-                  fontsize=14, loc='upper center', ncol=5)
+                  fontsize=14, loc='upper center', ncol=5, bbox_to_anchor=(.45, 1.))
+    lgd = plt.suptitle(title, fontsize=14, y=1.04)
     # plt.show()
     global counter_fig
     filename = 'figure' + str(counter_fig) + '.pdf'
-    f.savefig(filename)
+    f.savefig(filename, bbox_extra_artists=(lgd,), bbox_inches='tight')
     counter_fig += 1
 
 
@@ -151,19 +152,19 @@ nw = [10, 20, 30, 40, 50, 60, 70, 80, 90,
 # Define the path for non flatten image
 path_result = '/data/retinopathy/OCT/SERI/results/non_flatten/lbp_riu/lbp_hist/lbp_local'
 
-report_plot(path_result, nw, config)
+report_plot(path_result, nw, config, 'LBP + local + BoW + non-flatten')
 
 ### Flatten
 # Define the path for flatten image
 path_result = '/data/retinopathy/OCT/SERI/results/flatten/lbp_riu/lbp_hist/lbp_local'
 
-report_plot(path_result, nw, config)
+report_plot(path_result, nw, config, 'LBP + local + BoW + flatten')
 
 ### Flatten-aligned
 # Define the path for flatten image
 path_result = '/data/retinopathy/OCT/SERI/results/flatten_aligned/lbp_riu/lbp_hist/lbp_local'
 
-report_plot(path_result, nw, config)
+report_plot(path_result, nw, config, 'LBP + local + BoW + flatten-aligned')
 
 ### Flatten-aligned cropped
 # Define the path for flatten image
@@ -174,7 +175,7 @@ nw = [10, 20, 30, 40, 50, 60, 70, 80, 90,
 
 path_result = '/data/retinopathy/OCT/SERI/results/flatten_aligned_cropped/lbp_riu/lbp_hist/lbp_local'
 
-report_plot(path_result, nw, config)
+report_plot(path_result, nw, config, 'LBP + local + BoW + flatten-aligned-cropped')
 
 # Check the following configuration:
 ##### LBP + BOW + GLOBAL #####
@@ -187,25 +188,25 @@ nw = [10, 20, 30, 40, 50, 60, 70, 80, 90,
 # Define the path for non flatten image
 path_result = '/data/retinopathy/OCT/SERI/results/non_flatten/lbp_riu/lbp_hist/lbp_global'
 
-report_plot(path_result, nw, config)
+report_plot(path_result, nw, config, 'LBP + global + BoW + non-flatten')
 
 ### Flatten
 # Define the path for flatten image
 path_result = '/data/retinopathy/OCT/SERI/results/flatten/lbp_riu/lbp_hist/lbp_global'
 
-report_plot(path_result, nw, config)
+report_plot(path_result, nw, config, 'LBP + global + BoW + flatten')
 
 ### Flatten-aligned
 # Define the path for flatten image
 path_result = '/data/retinopathy/OCT/SERI/results/flatten_aligned/lbp_riu/lbp_hist/lbp_global'
 
-report_plot(path_result, nw, config)
+report_plot(path_result, nw, config, 'LBP + global + BoW + flatten-aligned')
 
 ### Flatten-aligned cropped
 # Define the path for flatten image
 path_result = '/data/retinopathy/OCT/SERI/results/flatten_aligned_cropped/lbp_riu/lbp_hist/lbp_global'
 
-report_plot(path_result, nw, config)
+report_plot(path_result, nw, config, 'LBP + global + BoW + flatten-aligned-cropped')
 
 #Check the following configuration:
 #### LBP-TOP + BOW + LOCAL #####
@@ -218,22 +219,22 @@ nw = [10, 20, 30, 40, 50, 60, 70, 80, 90,
 # Define the path for non flatten image
 path_result = '/data/retinopathy/OCT/SERI/results/non_flatten/lbp_riu/lbp_hist_top/lbp_local'
 
-report_plot(path_result, nw, config)
+report_plot(path_result, nw, config, 'LBP-TOP + local + BoW + non-flatten')
 
 ### Flatten
 # Define the path for flatten image
 path_result = '/data/retinopathy/OCT/SERI/results/flatten/lbp_riu/lbp_hist_top/lbp_local'
 
-report_plot(path_result, nw, config)
+report_plot(path_result, nw, config, 'LBP-TOP + local + BoW + flatten')
 
 ### Flatten-aligned
 # Define the path for flatten image
 path_result = '/data/retinopathy/OCT/SERI/results/flatten_aligned/lbp_riu/lbp_hist_top/lbp_local'
 
-report_plot(path_result, nw, config)
+report_plot(path_result, nw, config, 'LBP-TOP + local + BoW + flatten-aligned')
 
 # ### Flatten-aligned cropped
 # Define the path for flatten image
 path_result = '/data/retinopathy/OCT/SERI/results/flatten_aligned_cropped/lbp_riu/lbp_hist_top/lbp_local'
 
-report_plot(path_result, nw, config)
+report_plot(path_result, nw, config, 'LBP-TOP + local + BoW + flatten-aligned-cropped')
