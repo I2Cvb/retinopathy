@@ -25,3 +25,6 @@
 [submodule "pipeline/lemaitre-2016-apr"]
 	path = pipeline/lemaitre-2016-apr
 	url = https://github.com/I2Cvb/lemaitre-2016-apr.git
+[submodule "pipeline/alsaih-2016-aug"]
+	path = pipeline/alsaih-2016-aug
+	url = https://github.com/I2Cvb/alsaih-2016-aug.git
