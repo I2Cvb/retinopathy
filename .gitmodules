@@ -19,3 +19,6 @@
 [submodule "pipeline/srinivasan-2014-oct"]
 	path = pipeline/srinivasan-2014-oct
 	url = https://github.com/I2Cvb/srinivasan-2014-oct.git
+[submodule "pipeline/lemaitre-2015-oct"]
+	path = pipeline/lemaitre-2015-oct
+	url = https://github.com/I2Cvb/lemaitre-2015-oct.git
