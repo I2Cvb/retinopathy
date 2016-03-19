@@ -31,3 +31,6 @@
 [submodule "pipeline/venhuizen-2015-feb"]
 	path = pipeline/venhuizen-2015-feb
 	url = https://github.com/I2Cvb/venhuizen-2015-feb.git
+[submodule "pipeline/sankar-2016-feb"]
+	path = pipeline/sankar-2016-feb
+	url = https://github.com/I2Cvb/sankar-2016-feb.git
