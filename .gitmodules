@@ -16,3 +16,6 @@
 [submodule "publication/cmig-2015"]
 	path = publication/cmig-2015
 	url = https://github.com/I2Cvb/oct-report-CMIG.git
+[submodule "pipeline/srinivasan-2014-oct"]
+	path = pipeline/srinivasan-2014-oct
+	url = https://github.com/I2Cvb/srinivasan-2014-oct.git
