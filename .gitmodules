@@ -1,12 +1,18 @@
 [submodule "src/protoclass"]
 	path = src/protoclass
 	url = https://github.com/glemaitre/protoclass.git
-[submodule "doc/miccai-2015-omia"]
-	path = doc/miccai-2015-omia
-	url = https://github.com/I2Cvb/oct-Report.git
 [submodule "third-party/protoclass"]
 	path = third-party/protoclass
 	url = https://github.com/glemaitre/protoclass
-[submodule "doc/jo-2015"]
-	path = doc/jo-2015
+[submodule "publication/miccai-omia-2015/workshop"]
+	path = publication/miccai-omia-2015/workshop
+	url = https://github.com/I2Cvb/oct-Report.git
+[submodule "publication/miccai-omia-2015/presentation"]
+	path = publication/miccai-omia-2015/presentation
+	url = https://github.com/I2Cvb/miccai-2015-omia-presentation.git
+[submodule "publication/joph-2015"]
+	path = publication/joph-2015
 	url = https://github.com/I2Cvb/oct-journal.git
+[submodule "publication/cmig-2015"]
+	path = publication/cmig-2015
+	url = https://github.com/I2Cvb/oct-report-CMIG.git
