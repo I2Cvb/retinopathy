@@ -28,3 +28,6 @@
 [submodule "pipeline/alsaih-2016-aug"]
 	path = pipeline/alsaih-2016-aug
 	url = https://github.com/I2Cvb/alsaih-2016-aug.git
+[submodule "pipeline/venhuizen-2015-feb"]
+	path = pipeline/venhuizen-2015-feb
+	url = https://github.com/I2Cvb/venhuizen-2015-feb.git
