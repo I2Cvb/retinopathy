@@ -34,3 +34,6 @@
 [submodule "pipeline/sankar-2016-feb"]
 	path = pipeline/sankar-2016-feb
 	url = https://github.com/I2Cvb/sankar-2016-feb.git
+[submodule "third-party/protoclass_matlab"]
+	path = third-party/protoclass_matlab
+	url = https://github.com/I2Cvb/protoclass_matlab.git
