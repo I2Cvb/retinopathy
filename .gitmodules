@@ -40,3 +40,6 @@
 [submodule "pipeline/liu-2011-oct"]
 	path = pipeline/liu-2011-oct
 	url = https://github.com/I2Cvb/liu-2011-oct.git
+[submodule "publication/icpr-2016/pairet-2016-dec"]
+	path = publication/icpr-2016/pairet-2016-dec
+	url = https://github.com/I2Cvb/pairet-2016-dec.git
