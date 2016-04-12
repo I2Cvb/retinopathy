@@ -37,3 +37,6 @@
 [submodule "third-party/protoclass_matlab"]
 	path = third-party/protoclass_matlab
 	url = https://github.com/I2Cvb/protoclass_matlab.git
+[submodule "pipeline/liu-2011-oct"]
+	path = pipeline/liu-2011-oct
+	url = https://github.com/I2Cvb/liu-2011-oct.git
