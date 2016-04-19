@@ -46,3 +46,6 @@
 [submodule "publication/icpr-2016/massich-2016-dec"]
 	path = publication/icpr-2016/massich-2016-dec
 	url = https://github.com/I2Cvb/massich-2016-dec.git
+[submodule "publication/icpr-2016/alsaih-2016-oct"]
+	path = publication/icpr-2016/alsaih-2016-oct
+	url = https://github.com/I2Cvb/alsaih-2016-oct.git
