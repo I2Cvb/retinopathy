@@ -49,3 +49,6 @@
 [submodule "publication/icpr-2016/alsaih-2016-oct"]
 	path = publication/icpr-2016/alsaih-2016-oct
 	url = https://github.com/I2Cvb/alsaih-2016-oct.git
+[submodule "pipeline/alsaih-2016-sep"]
+	path = pipeline/alsaih-2016-sep
+	url = https://github.com/I2Cvb/alsaih-2016-sep.git
